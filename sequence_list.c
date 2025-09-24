@@ -10,65 +10,92 @@ typedef struct sequence_list
 {
     ELEMTYPE    *elem;
     int         length;
-    int         listsize
+    int         listsize;
 } SeqList, *PSeqList;
 
 /* *
- * ç”¨äºåˆå§‹åŒ–æä¾›çš„çº¿æ€§è¡¨
- * å‚æ•°: 
- *      1. PSeqList sq ç›®æ ‡é¡ºåºè¡¨çš„åœ°å€
- * è¿”å›å€¼:
- *      æä¾›çš„é¡ºåºè¡¨çš„åœ°å€
+ * ÓÃÓÚ³õÊ¼»¯Ìá¹©µÄÏßĞÔ±í
+ * ²ÎÊı: 
+ *      1. PSeqList sq Ä¿±êË³Ğò±íµÄµØÖ·
+ * ·µ»ØÖµ:
+ *      Ìá¹©µÄË³Ğò±íµÄµØÖ·
  */
 PSeqList InitList(PSeqList sq) {
-    /* åˆå§‹åŒ–ä¸€æ®µå†…å­˜ç©ºé—´ */
+    /* ³õÊ¼»¯Ò»¶ÎÄÚ´æ¿Õ¼ä */
     sq->elem = (ELEMTYPE*)malloc(LIST_INIT_SIZE * (sizeof(ELEMTYPE))); 
     if (sq->elem == NULL) { return NULL; }
 
-    /* è®¾ç½®ç»“æ„ä½“å‚æ•° */
+    /* ÉèÖÃ½á¹¹Ìå²ÎÊı */
     sq->length = 0;
     sq->listsize = LIST_INIT_SIZE;
     return sq;
 }
 
-/* ç”¨äºæ‰“å°çº¿æ€§è¡¨ä¸­çš„å…ƒç´ å†…å®¹ */
+/* ÓÃÓÚ´òÓ¡ÏßĞÔ±íÖĞµÄÔªËØÄÚÈİ */
 void PrintSqList(PSeqList sq) {
-    for (size_t i = 0; i < sq->length; i++) {
-        printf("å…ƒç´ %d å¯¹åº”çš„å€¼ä¸º%d\n", i, sq->elem[i]);
+    for (size_t i = 1; i <= sq->length; i++) {
+        printf("Ë÷Òı %-5d -> ¶ÔÓ¦µÄÖµÎª%d\n", i, sq->elem[i - 1]);
     }
 }
 
 /**
- * ç”¨äºåœ¨é¡ºåºè¡¨ä¸­æ’å…¥å…ƒç´ å†…å®¹
- * å‚æ•°:
- *      1. PSeqList sq      è¦æ“ä½œçš„é¡ºåºè¡¨å¯¹è±¡
- *      2. int index        æ’å…¥çš„ä½ç½®
- *      3. ELEMTYPE elem    æ’å…¥å…ƒç´ çš„å€¼
- * è¿”å›å€¼:
- *      æ“ä½œå¯¹è±¡çš„åœ°å€
+ * ÓÃÓÚÔÚË³Ğò±íÖĞ²åÈëÔªËØÄÚÈİ
+ * ²ÎÊı:
+ *      1. PSeqList sq      Òª²Ù×÷µÄË³Ğò±í¶ÔÏó
+ *      2. int index        ²åÈëµÄÎ»ÖÃ
+ *      3. ELEMTYPE elem    ²åÈëÔªËØµÄÖµ
+ * ·µ»ØÖµ:
+ *      ²Ù×÷¶ÔÏóµÄµØÖ·
  */
-PSeqList InsertSqList(PSeqList sq, int index, ELEMTYPE elem) {
-    /* æ ¡éªŒindex */
-    if (index < 1 || index > sq->length) { 
+void InsertSqList(PSeqList sq, int index, ELEMTYPE elem) {
+    /* Ğ£Ñéindex */
+    if ((index < 1) || (index > sq->length + 1)) { 
         printf("Invalid index", stderr);
-        return sq; 
+        return;
     } 
 
-    /* å¦‚æœå†…å­˜ä¸è¶³,åˆ™é‡æ–°åˆ†é… */
+    /* Èç¹ûÄÚ´æ²»×ã,ÔòÖØĞÂ·ÖÅä */
     if (sq->length >= sq->listsize) {
-        sq->elem = (PSeqList)realloc(sq->elem, (sq->listsize + LISTINCREMENT) * sizeof(ELEMTYPE));
+        sq->elem = (ELEMTYPE*)realloc(sq->elem, (sq->listsize + LISTINCREMENT) * sizeof(ELEMTYPE));
+        sq->listsize += LISTINCREMENT;
     }
 
-    /* å®Œæˆæ•°æ®æ’å…¥ */
-    for (size_t i = sq->length; i >= index; i--) {
-        sq->elem[i] = sq->elem[i - 1];
+    /* Íê³ÉÊı¾İ²åÈë */
+    for (ELEMTYPE *end = &sq->elem[sq->length]; end >= &sq->elem[index]; end--) {
+        *end = *(end - 1);
     }
-    sq->elem[index] = elem;
-    return sq;
+    sq->elem[index - 1] = elem;
+    sq->length++;
+}
+
+/**
+ * ÓÃÓÚÉ¾³ıË³Ğò±íÖĞÖ¸¶¨Î»ÖÃµÄÔªËØ
+ * ²ÎÊı:
+ *      1. PSeqList sq  ²Ù×÷¶ÔÏó
+ *      2. int index    Ë÷Òı
+ * ·µ»ØÖµ:
+ *      ²Ù×÷¶ÔÏó 
+ */
+void DeleteSqList(PSeqList sq, int index) {
+    // Ğ£ÑéË÷Òı
+    if ((index < 1) || (index > sq->length)) {
+        printf("Invalid index", stderr);
+    }
+    
+    for (size_t i = index; i < sq->length; i++) {
+        sq->elem[index - 1] = sq->elem[index];
+    }
+    sq->length--;
 }
 
 int main(void) {
-    PSeqList PSq_0 = InitList(PSq_0); 
+    PSeqList PSq_0; 
+    InitList(PSq_0); 
+    for (size_t i = 1; i < 22; i++) {
+        InsertSqList(PSq_0, i, i);
+    }
+    InsertSqList(PSq_0, 8, 124);
+    PrintSqList(PSq_0);
 
     return 0;
 }
