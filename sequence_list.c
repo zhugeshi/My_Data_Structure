@@ -6,8 +6,7 @@
 #define LISTINCREMENT  10
 #define ELEMTYPE       char
 
-typedef struct sequence_list
-{
+typedef struct sequence_list {
     ELEMTYPE    *elem;
     int         length;
     int         listsize;
@@ -95,8 +94,8 @@ int main(void) {
         InsertSqList(PSq_0, i, i);
     }
     InsertSqList(PSq_0, 8, 124);
+    DeleteSqList(PSq_0, 8);
     PrintSqList(PSq_0);
 
     return 0;
 }
-
