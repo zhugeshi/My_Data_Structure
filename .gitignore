@@ -1,2 +1,8 @@
 # .exe
 *.exe
+
+# .gdb
+*.gdb_history
+
+# build
+*.out
