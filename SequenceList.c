@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define LIST_INIT_SIZE 100
+#define LIST_INIT_SET 100
 #define LISTINCREMENT  10
 #define ELEMTYPE       char
 
@@ -21,12 +21,12 @@ typedef struct sequence_list {
  */
 PSeqList InitList(PSeqList sq) {
     /* 初始化一段内存空间 */
-    sq->elem = (ELEMTYPE*)malloc(LIST_INIT_SIZE * (sizeof(ELEMTYPE))); 
+    sq->elem = (ELEMTYPE*)malloc(LIST_INIT_SET * (sizeof(ELEMTYPE))); 
     if (sq->elem == NULL) { return NULL; }
 
     /* 设置结构体参数 */
     sq->length = 0;
-    sq->listsize = LIST_INIT_SIZE;
+    sq->listsize = LIST_INIT_SET;
     return sq;
 }
 
@@ -88,14 +88,14 @@ void DeleteSqList(PSeqList sq, int index) {
 }
 
 int main(void) {
-    PSeqList PSq_0; 
-    InitList(PSq_0); 
+    PSeqList p_Sq; 
+    InitList(p_Sq); 
     for (size_t i = 1; i < 22; i++) {
-        InsertSqList(PSq_0, i, i);
+        InsertSqList(p_Sq, i, i);
     }
-    InsertSqList(PSq_0, 8, 124);
-    DeleteSqList(PSq_0, 8);
-    PrintSqList(PSq_0);
+    InsertSqList(p_Sq, 8, 124);
+    DeleteSqList(p_Sq, 8);
+    PrintSqList(p_Sq);
 
     return 0;
 }
