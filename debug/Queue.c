@@ -234,8 +234,8 @@ void PrintIndexValue(SqQueue q) {
 }
 
 void PrintElem(SqQueue q) {
-    int qlen = QueueLength(q);
-    for (int i = 0; i < qlen; ++i) {
+    int q_len = QueueLength(q);
+    for (int i = 0; i < q_len; ++i) {
         QElemType e;
         DeQueue(&q, &e);
         printf("%d ", e);
