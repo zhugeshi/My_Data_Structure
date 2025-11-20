@@ -145,8 +145,12 @@ int Index(HString S, HString T, int pos) {
 // S:  1111222233334444
 // T1: 3333
 // T2: 55555
+// tmp: 1111222255555
+// result: 1111222255555
+// result += tmp
 // Replace 后 S 变为 11112222555554444
 Status Replace(HString* S, HString T1, HString T2) {
+    /* 检查参数 */
     if (!S) return ERROR;
     if (T1.length == 0) return OK; // 避免死循环
 
@@ -155,10 +159,10 @@ Status Replace(HString* S, HString T1, HString T2) {
 
     int i = 1;
     while (i <= S->length - T1.length + 1) {
-        /* 逐个查找 */
+        // 逐个查找
         if (SubString(&piece, *S, i, T1.length) != OK) { FreeHString(&piece); FreeHString(&result); return ERROR; }
 
-        /* 如果存在子串T1 */
+        // 如果存在子串T1
         if (StrCompare(piece, T1) == 0) {
             // result = result + T2
             HString tmp; InitEmpty(&tmp);
@@ -181,7 +185,7 @@ Status Replace(HString* S, HString T1, HString T2) {
             i += 1;
         }
     }
-    /* 追加剩余尾巴 */
+    // 追加剩余的字符
     if (i <= S->length) {
         HString tail; InitEmpty(&tail);
         if (SubString(&tail, *S, i, S->length - i + 1) != OK) { FreeHString(&piece); FreeHString(&result); return ERROR; }
