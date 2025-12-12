@@ -9,84 +9,88 @@
 #define OVERFLOW   -2
 #define MAXSIZE    100
 
-typedef int Status;              // ÉùÃ÷º¯ÊıÀàĞÍÃû
-typedef char TElemType;          // ÉùÃ÷½áµãÔªËØÖµµÄÀàĞÍ
+typedef int Status;      // å£°æ˜å‡½æ•°ç±»å‹å
+typedef char TElemType;  // å£°æ˜ç»“ç‚¹å…ƒç´ å€¼çš„ç±»å‹
 
-// ÆÕÍ¨¶ş²æÊ÷½á¹¹¶¨Òå
+// æ™®é€šäºŒå‰æ ‘ç»“æ„å®šä¹‰
 typedef struct BiTNode {
     TElemType data;
     struct BiTNode *lchild, *rchild;
 } BiTNode, *BiTree;
 
 /*****************************************************************
- * @brief »ù±¾²Ù×÷º¯ÊıÊµÏÖ
+ * @brief åŸºæœ¬æ“ä½œå‡½æ•°å®ç°
+ * @param T äºŒå‰æ ‘æŒ‡é’ˆ
+ * @return Status æ“ä½œçŠ¶æ€
  *****************************************************************/
-
-// £¨1£©¸ù¾İÏÈĞò±éÀú×Ö·ûĞòÁĞ´´½¨¶ş²æÊ÷£¨#±íÊ¾¿Õ£©
+// ï¼ˆ1ï¼‰æ ¹æ®å…ˆåºéå†å­—ç¬¦åºåˆ—åˆ›å»ºäºŒå‰æ ‘ï¼ˆ#è¡¨ç¤ºç©ºï¼‰
 // ABC##DE##F##G##
-Status CreateBiTree(BiTree *T) {
+Status CreateBiTree(BiTree* T) {
     char ch;
     scanf("%c", &ch);
-    // '#'»òÕß' '±íÊ¾¿Õ½áµã
+    // '#'æˆ–è€…' 'è¡¨ç¤ºç©ºç»“ç‚¹
     if (ch == '#' || ch == ' ') {
         *T = NULL;
     } else {
         *T = (BiTree)malloc(sizeof(BiTNode));
-        if (!*T) exit(ERROR);
+        if (!*T)
+            exit(ERROR);
         (*T)->data = ch;
-        CreateBiTree(&(*T)->lchild);  // µİ¹é´´½¨×ó×ÓÊ÷
-        CreateBiTree(&(*T)->rchild);  // µİ¹é´´½¨ÓÒ×ÓÊ÷
+        CreateBiTree(&(*T)->lchild);  // é€’å½’åˆ›å»ºå·¦å­æ ‘
+        CreateBiTree(&(*T)->rchild);  // é€’å½’åˆ›å»ºå³å­æ ‘
     }
     return OK;
 }
 
-// £¨2£©µİ¹éÏÈĞò±éÀú
+// ï¼ˆ2ï¼‰é€’å½’å…ˆåºéå†
 void PreOrderTraverse(BiTree T) {
     if (T) {
-        printf("%c ", T->data);        // ·ÃÎÊ¸ù
-        PreOrderTraverse(T->lchild);    // ±éÀú×ó×ÓÊ÷
-        PreOrderTraverse(T->rchild);    // ±éÀúÓÒ×ÓÊ÷
+        printf("%c ", T->data);       // è®¿é—®æ ¹
+        PreOrderTraverse(T->lchild);  // éå†å·¦å­æ ‘
+        PreOrderTraverse(T->rchild);  // éå†å³å­æ ‘
     }
 }
 
-// £¨3£©µİ¹éÖĞĞò±éÀú
+// ï¼ˆ3ï¼‰é€’å½’ä¸­åºéå†
 void InOrderTraverse(BiTree T) {
     if (T) {
-        InOrderTraverse(T->lchild);     // ±éÀú×ó×ÓÊ÷
-        printf("%c ", T->data);        // ·ÃÎÊ¸ù
-        InOrderTraverse(T->rchild);     // ±éÀúÓÒ×ÓÊ÷
+        InOrderTraverse(T->lchild);  // éå†å·¦å­æ ‘
+        printf("%c ", T->data);      // è®¿é—®æ ¹
+        InOrderTraverse(T->rchild);  // éå†å³å­æ ‘
     }
 }
 
-// £¨4£©µİ¹éºóĞò±éÀú
+// ï¼ˆ4ï¼‰é€’å½’ååºéå†
 void PostOrderTraverse(BiTree T) {
     if (T) {
-        PostOrderTraverse(T->lchild);   // ±éÀú×ó×ÓÊ÷
-        PostOrderTraverse(T->rchild);   // ±éÀúÓÒ×ÓÊ÷
-        printf("%c ", T->data);        // ·ÃÎÊ¸ù
+        PostOrderTraverse(T->lchild);  // éå†å·¦å­æ ‘
+        PostOrderTraverse(T->rchild);  // éå†å³å­æ ‘
+        printf("%c ", T->data);        // è®¿é—®æ ¹
     }
 }
 
-// ¸¨Öúº¯Êı£º´òÓ¡Õ»ÄÚÈİ
+// è¾…åŠ©å‡½æ•°ï¼šæ‰“å°æ ˆå†…å®¹
 void PrintStack(BiTree stack[], int top) {
-    printf("[Õ»: ");
+    printf("[æ ˆ: ");
     for (int i = 0; i <= top; i++) {
         printf("%c", stack[i]->data);
-        if (i < top) printf(", ");
+        if (i < top)
+            printf(", ");
     }
     printf("] ");
 }
 
-// £¨5£©·Çµİ¹éÏÈĞò±éÀú£¨Êä³ö½øÕ»/³öÕ»¹ı³Ì£©
+// ï¼ˆ5ï¼‰éé€’å½’å…ˆåºéå†ï¼ˆè¾“å‡ºè¿›æ ˆ/å‡ºæ ˆè¿‡ç¨‹ï¼‰
 void NRPreOrderTraverse(BiTree T) {
-    if (!T) return;
+    if (!T)
+        return;
     BiTree stack[MAXSIZE];
     int top = -1;
-    BiTree p_cur = T;  // ³õÊ¼»¯Îª¸ù½Úµã
-    
+    BiTree p_cur = T;  // åˆå§‹åŒ–ä¸ºæ ¹èŠ‚ç‚¹
+
     /*****************************************************************
-     * @brief Ê¾Àı¶ş²æÊ÷½á¹¹ 
-     * ! ¸Ä³É×¢ÊÍĞÎÊ½ ABC##DE##F##G##
+     * @brief ç¤ºä¾‹äºŒå‰æ ‘ç»“æ„
+     * æ”¹æˆæ³¨é‡Šå½¢å¼ ABC##DE##F##G##
      *                     A
      *                    / \
      *                   B   G
@@ -94,89 +98,99 @@ void NRPreOrderTraverse(BiTree T) {
      *                 C   D
      *                    / \
      *                   E   F
-     *****************************************************************/
-    printf("\n·Çµİ¹éÏÈĞò±éÀú¹ı³Ì£º\n");
+     * *****************************************************************/
+
+    printf("\néé€’å½’å…ˆåºéå†è¿‡ç¨‹ï¼š\n");
+    // å½“å½“å‰èŠ‚ç‚¹ä¸ä¸ºç©º,å¹¶ä¸”æ ˆä¸ä¸º0æ—¶
     while (p_cur || top >= 0) {
+        // å¾ªç¯å…¥æ ˆå·¦èŠ‚ç‚¹
         while (p_cur) {
-            // ·ÃÎÊ½áµã
-            printf("·ÃÎÊ: %c, ", p_cur->data);
-            // ÈëÕ»
+            printf("è®¿é—®: %c, ", p_cur->data);
             stack[++top] = p_cur;
-            printf("ÈëÕ»: %c, ", p_cur->data);
+            printf("å…¥æ ˆ: %c, ", p_cur->data);
             PrintStack(stack, top);
             printf("\n");
             p_cur = p_cur->lchild;
         }
+        // éå†åˆ°çš„èŠ‚ç‚¹ä¸ºç©ºæ—¶
         if (top >= 0) {
             p_cur = stack[top--];
-            printf("³öÕ»: %c, ", p_cur->data);
-            if (top >= 0) PrintStack(stack, top);
-            else printf("[Õ»: ¿Õ] ");
+            printf("å‡ºæ ˆ: %c, ", p_cur->data);
+            if (top >= 0)
+                PrintStack(stack, top);
+            else
+                printf("[æ ˆ: ç©º] ");
             printf("\n");
             p_cur = p_cur->rchild;
         }
     }
 }
 
-// £¨6£©·Çµİ¹éÖĞĞò±éÀú£¨Êä³ö½øÕ»/³öÕ»¹ı³Ì£©
+// ï¼ˆ6ï¼‰éé€’å½’ä¸­åºéå†ï¼ˆè¾“å‡ºè¿›æ ˆ/å‡ºæ ˆè¿‡ç¨‹ï¼‰
 void NRInOrderTraverse(BiTree T) {
-    if (!T) return;
+    if (!T)
+        return;
     BiTree stack[MAXSIZE];
     int top = -1;
     BiTree p = T;
-    
-    printf("\n·Çµİ¹éÖĞĞò±éÀú¹ı³Ì£º\n");
+
+    printf("\néé€’å½’ä¸­åºéå†è¿‡ç¨‹ï¼š\n");
     while (p || top >= 0) {
         while (p) {
-            // ÈëÕ»
+            // å…¥æ ˆ
             stack[++top] = p;
-            printf("ÈëÕ»: %c, ", p->data);
+            printf("å…¥æ ˆ: %c, ", p->data);
             PrintStack(stack, top);
             printf("\n");
             p = p->lchild;
         }
         if (top >= 0) {
             p = stack[top--];
-            printf("³öÕ»: %c, ", p->data);
-            printf("·ÃÎÊ: %c, ", p->data);
-            if (top >= 0) PrintStack(stack, top);
-            else printf("[Õ»: ¿Õ] ");
+            printf("å‡ºæ ˆ: %c, ", p->data);
+            printf("è®¿é—®: %c, ", p->data);
+            if (top >= 0)
+                PrintStack(stack, top);
+            else
+                printf("[æ ˆ: ç©º] ");
             printf("\n");
             p = p->rchild;
         }
     }
 }
 
-// £¨7£©·Çµİ¹éºóĞò±éÀú£¨Êä³ö½øÕ»/³öÕ»/¶ÁÕ»¶¥¹ı³Ì£©
+// ï¼ˆ7ï¼‰éé€’å½’ååºéå†ï¼ˆè¾“å‡ºè¿›æ ˆ/å‡ºæ ˆ/è¯»æ ˆé¡¶è¿‡ç¨‹ï¼‰
 void NRPostOrderTraverse(BiTree T) {
-    if (!T) return;
+    if (!T)
+        return;
     BiTree stack[MAXSIZE];
     int top = -1;
     BiTree p = T, lastVisit = NULL;
-    
-    printf("\n·Çµİ¹éºóĞò±éÀú¹ı³Ì£º\n");
+
+    printf("\néé€’å½’ååºéå†è¿‡ç¨‹ï¼š\n");
     while (p || top >= 0) {
         while (p) {
-            // ÈëÕ»
+            // å…¥æ ˆ
             stack[++top] = p;
-            printf("ÈëÕ»: %c, ", p->data);
+            printf("å…¥æ ˆ: %c, ", p->data);
             PrintStack(stack, top);
             printf("\n");
             p = p->lchild;
         }
-        
-        // ¶ÁÕ»¶¥ÔªËØ
+
+        // è¯»æ ˆé¡¶å…ƒç´ 
         p = stack[top];
-        printf("¶ÁÕ»¶¥: %c, ", p->data);
+        printf("è¯»æ ˆé¡¶: %c, ", p->data);
         PrintStack(stack, top);
         printf("\n");
-        
-        // Èç¹ûÓÒ×ÓÊ÷Îª¿Õ»òÒÑ·ÃÎÊ£¬Ôò·ÃÎÊ¸Ã½Úµã
+
+        // å¦‚æœå³å­æ ‘ä¸ºç©ºæˆ–å·²è®¿é—®ï¼Œåˆ™è®¿é—®è¯¥èŠ‚ç‚¹
         if (p->rchild == NULL || p->rchild == lastVisit) {
             top--;
-            printf("³öÕ»: %c, ·ÃÎÊ: %c, ", p->data, p->data);
-            if (top >= 0) PrintStack(stack, top);
-            else printf("[Õ»: ¿Õ] ");
+            printf("å‡ºæ ˆ: %c, è®¿é—®: %c, ", p->data, p->data);
+            if (top >= 0)
+                PrintStack(stack, top);
+            else
+                printf("[æ ˆ: ç©º] ");
             printf("\n");
             lastVisit = p;
             p = NULL;
@@ -187,34 +201,39 @@ void NRPostOrderTraverse(BiTree T) {
 }
 
 /*****************************************************************
- * Ó¦ÓÃº¯ÊıÊµÏÖ
+ * åº”ç”¨å‡½æ•°å®ç°
  *****************************************************************/
 
-// Ó¦ÓÃÊµÀı1£º·µ»Ø¶ÈÎªdµÄ½áµãÊı£¨d=0,1,2£©
+// åº”ç”¨å®ä¾‹1ï¼šè¿”å›åº¦ä¸ºdçš„ç»“ç‚¹æ•°ï¼ˆd=0,1,2ï¼‰
 int TNodes(BiTree T, int d) {
-    if (!T) return 0;
-    
+    if (!T)
+        return 0;
+
     int degree = 0;
-    if (T->lchild) degree++;
-    if (T->rchild) degree++;
-    
+    if (T->lchild)
+        degree++;
+    if (T->rchild)
+        degree++;
+
     int count = (degree == d) ? 1 : 0;
     return count + TNodes(T->lchild, d) + TNodes(T->rchild, d);
 }
 
-// Ó¦ÓÃÊµÀı2£ºÇó¶ş²æÊ÷¸ß¶È
+// åº”ç”¨å®ä¾‹2ï¼šæ±‚äºŒå‰æ ‘é«˜åº¦
 int High(BiTree T) {
-    if (!T) return 0;
+    if (!T)
+        return 0;
     int leftH = High(T->lchild);
     int rightH = High(T->rchild);
     return (leftH > rightH ? leftH : rightH) + 1;
 }
 
-// Ó¦ÓÃÊµÀı3£º´´½¨¶ş²æÅÅĞòÊ÷£¨BST£©
-Status InsertBST(BiTree *T, char ch) {
+// åº”ç”¨å®ä¾‹3ï¼šåˆ›å»ºäºŒå‰æ’åºæ ‘ï¼ˆBSTï¼‰
+Status InsertBST(BiTree* T, char ch) {
     if (*T == NULL) {
         *T = (BiTree)malloc(sizeof(BiTNode));
-        if (!*T) return OVERFLOW;
+        if (!*T)
+            return OVERFLOW;
         (*T)->data = ch;
         (*T)->lchild = (*T)->rchild = NULL;
         return OK;
@@ -224,13 +243,14 @@ Status InsertBST(BiTree *T, char ch) {
     } else if (ch > (*T)->data) {
         return InsertBST(&(*T)->rchild, ch);
     }
-    return OK;  // ÏàµÈÔò²»²åÈë
+    return OK;  // ç›¸ç­‰åˆ™ä¸æ’å…¥
 }
 
-Status CreateBST(BiTree *T, const char *chars) {
+Status CreateBST(BiTree* T, const char* chars) {
     *T = NULL;
-    if (!chars) return ERROR;
-    
+    if (!chars)
+        return ERROR;
+
     for (int i = 0; chars[i] != '\0'; i++) {
         if (chars[i] != ' ' && chars[i] != '\n') {
             if (InsertBST(T, chars[i]) != OK) {
@@ -242,55 +262,55 @@ Status CreateBST(BiTree *T, const char *chars) {
 }
 
 /*****************************************************************
- * ²âÊÔÖ÷º¯Êı
+ * æµ‹è¯•ä¸»å‡½æ•°
  *****************************************************************/
 int main(void) {
     BiTree T = NULL;
-    
-    printf("=== ¶ş²æÊ÷»ù±¾²Ù×÷²âÊÔ ===\n\n");
-    printf("ÇëÊäÈëÏÈĞò±éÀúĞòÁĞ£¨#±íÊ¾¿Õ½áµã£©£º\n");
-    printf("Ê¾Àı£ºABC##DE##F##G##\n");
-    
-    // ´´½¨¶ş²æÊ÷
+
+    printf("=== äºŒå‰æ ‘åŸºæœ¬æ“ä½œæµ‹è¯• ===\n\n");
+    printf("è¯·è¾“å…¥å…ˆåºéå†åºåˆ—ï¼ˆ#è¡¨ç¤ºç©ºç»“ç‚¹ï¼‰ï¼š\n");
+    printf("ç¤ºä¾‹ï¼šABC##DE##F##G##\n");
+
+    // åˆ›å»ºäºŒå‰æ ‘
     CreateBiTree(&T);
-    
+
     if (!T) {
-        printf("¶ş²æÊ÷Îª¿Õ£¡\n");
+        printf("äºŒå‰æ ‘ä¸ºç©ºï¼\n");
         return 0;
     }
-    
-    // µİ¹é±éÀú
-    printf("\nµİ¹éÏÈĞò±éÀú: ");
+
+    // é€’å½’éå†
+    printf("\né€’å½’å…ˆåºéå†: ");
     PreOrderTraverse(T);
-    
-    printf("\nµİ¹éÖĞĞò±éÀú: ");
+
+    printf("\né€’å½’ä¸­åºéå†: ");
     InOrderTraverse(T);
-    
-    printf("\nµİ¹éºóĞò±éÀú: ");
+
+    printf("\né€’å½’ååºéå†: ");
     PostOrderTraverse(T);
     printf("\n");
-    
-    // ·Çµİ¹é±éÀú£¨´øÏêÏ¸¹ı³Ì£©
+
+    // éé€’å½’éå†ï¼ˆå¸¦è¯¦ç»†è¿‡ç¨‹ï¼‰
     NRPreOrderTraverse(T);
     NRInOrderTraverse(T);
     NRPostOrderTraverse(T);
-    
-    // Ó¦ÓÃº¯Êı²âÊÔ
-    printf("\n=== Ó¦ÓÃº¯Êı²âÊÔ ===\n");
-    printf("¶ÈÎª0µÄ½áµãÊı£¨Ò¶×Ó½áµã£©: %d\n", TNodes(T, 0));
-    printf("¶ÈÎª1µÄ½áµãÊı: %d\n", TNodes(T, 1));
-    printf("¶ÈÎª2µÄ½áµãÊı: %d\n", TNodes(T, 2));
-    printf("¶ş²æÊ÷¸ß¶È: %d\n", High(T));
-    
-    // ²âÊÔ¶ş²æÅÅĞòÊ÷
-    printf("\n=== ¶ş²æÅÅĞòÊ÷²âÊÔ ===\n");
+
+    // åº”ç”¨å‡½æ•°æµ‹è¯•
+    printf("\n=== åº”ç”¨å‡½æ•°æµ‹è¯• ===\n");
+    printf("åº¦ä¸º0çš„ç»“ç‚¹æ•°ï¼ˆå¶å­ç»“ç‚¹ï¼‰: %d\n", TNodes(T, 0));
+    printf("åº¦ä¸º1çš„ç»“ç‚¹æ•°: %d\n", TNodes(T, 1));
+    printf("åº¦ä¸º2çš„ç»“ç‚¹æ•°: %d\n", TNodes(T, 2));
+    printf("äºŒå‰æ ‘é«˜åº¦: %d\n", High(T));
+
+    // æµ‹è¯•äºŒå‰æ’åºæ ‘
+    printf("\n=== äºŒå‰æ’åºæ ‘æµ‹è¯• ===\n");
     BiTree BST = NULL;
-    const char *chars = "FDACEGB";
-    printf("ÊäÈë×Ö·ûĞòÁĞ: %s\n", chars);
+    const char* chars = "FDACEGB";
+    printf("è¾“å…¥å­—ç¬¦åºåˆ—: %s\n", chars);
     CreateBST(&BST, chars);
-    printf("BSTÖĞĞò±éÀú£¨Ó¦ÎªÉıĞò£©: ");
+    printf("BSTä¸­åºéå†ï¼ˆåº”ä¸ºå‡åºï¼‰: ");
     InOrderTraverse(BST);
     printf("\n");
-    
+
     return 0;
 }

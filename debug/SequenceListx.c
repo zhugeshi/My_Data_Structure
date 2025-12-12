@@ -18,8 +18,8 @@ typedef struct SqList {
 } SqList, *PSqList;
 
 /**
- * ÀûÓÃnewº¯ÊıÉêÇë´æ´¢¿Õ¼ä£¬¹¹ÔìÒ»¸ö¿ÕµÄË³Ğò±í±íL£¬LµÄ³õÊ¼´óĞ¡ÎªMAXSIZE
- * ³É¹¦·µ»ØOK
+ * åˆ©ç”¨newå‡½æ•°ç”³è¯·å­˜å‚¨ç©ºé—´ï¼Œæ„é€ ä¸€ä¸ªç©ºçš„é¡ºåºè¡¨è¡¨Lï¼ŒLçš„åˆå§‹å¤§å°ä¸ºMAXSIZE
+ * æˆåŠŸè¿”å›OK
  */
 STATUS InitList(PSqList sq) {
     ELEMTYPE* new_alloc = (ELEMTYPE*)malloc(MAXSIZE * sizeof(ELEMTYPE));
@@ -34,8 +34,8 @@ STATUS InitList(PSqList sq) {
 }
 
 /**
- * ½«Ë³Ğò±íµÄÊı¾İÇå¿Õ.
- * ½«L.lengthÇåÁã£¬¼´L.length=0¼´¿É
+ * å°†é¡ºåºè¡¨çš„æ•°æ®æ¸…ç©º.
+ * å°†L.lengthæ¸…é›¶ï¼Œå³L.length=0å³å¯
  */
 STATUS ClearList(PSqList sq) {
     sq->length = 0;
@@ -43,17 +43,17 @@ STATUS ClearList(PSqList sq) {
 }
 
 /**
- * ·µ»ØLÖĞÊı¾İÔªËØ¸öÊı
+ * è¿”å›Lä¸­æ•°æ®å…ƒç´ ä¸ªæ•°
  */
 int ListLength(PSqList sq) {
     return sq->length;
 }
 
 /**
- * ÓÃe·µ»ØLÖĞµÚi¸öÊı¾İÔªËØµÄÖµ£¬1¡Üi¡ÜL.Length
+ * ç”¨eè¿”å›Lä¸­ç¬¬iä¸ªæ•°æ®å…ƒç´ çš„å€¼ï¼Œ1â‰¤iâ‰¤L.Length
  */
 STATUS GetElem(PSqList sq, int idx, ELEMTYPE* elem) {
-    // ¼ìÑéË÷ÒıÊÇ·ñºÏ·¨
+    // æ£€éªŒç´¢å¼•æ˜¯å¦åˆæ³•
     if (idx < 1 || idx > sq->length) {
         fprintf(stderr, "Index is invalid.\n");
         return FALSE;
@@ -64,13 +64,13 @@ STATUS GetElem(PSqList sq, int idx, ELEMTYPE* elem) {
 }
 
 /**
- * ·µ»ØLÖĞµÚ1¸öÓëeÏàµÈµÄÊı¾İÔªËØÎ»Ğò£¬Èôe²»´æÔÚ£¬Ôò·µ»Ø0
+ * è¿”å›Lä¸­ç¬¬1ä¸ªä¸eç›¸ç­‰çš„æ•°æ®å…ƒç´ ä½åºï¼Œè‹¥eä¸å­˜åœ¨ï¼Œåˆ™è¿”å›0
  */
 int LocateList(PSqList sq, ELEMTYPE elem) {
     ELEMTYPE* ptemp_elem = sq->elem;
     int sq_length = ListLength(sq);
     int index = 1;
-    
+
     while (index <= sq_length) {
         if (*ptemp_elem == elem) {
             return index;
@@ -83,30 +83,30 @@ int LocateList(PSqList sq, ELEMTYPE elem) {
     return ERROR;
 }
 
-/* ÓÃÓÚ´òÓ¡ÏßĞÔ±íÖĞµÄÔªËØÄÚÈİ */
+/* ç”¨äºæ‰“å°çº¿æ€§è¡¨ä¸­çš„å…ƒç´ å†…å®¹ */
 void PrintSqList(PSqList sq) {
     for (size_t i = 1; i <= sq->length; i++) {
-        printf("Ë÷Òı %-5d -> ¶ÔÓ¦µÄÖµÎª%d\n", (int)i, sq->elem[i - 1]);
+        printf("ç´¢å¼• %-5d -> å¯¹åº”çš„å€¼ä¸º%d\n", (int)i, sq->elem[i - 1]);
     }
 }
 
 /**
- * ÔÚLÖĞµÄµÚi¸öÎ»ÖÃÖ®Ç°²åÈëĞÂµÄÊı¾İÔªËØe
+ * åœ¨Lä¸­çš„ç¬¬iä¸ªä½ç½®ä¹‹å‰æ’å…¥æ–°çš„æ•°æ®å…ƒç´ e
  */
 STATUS ListInsert(PSqList sq, int idx, ELEMTYPE elem) {
-    /* Ğ£Ñéindex */
-    if ((idx < 1) || (idx > sq->length + 1)) { // Èç¹ûÊÇÔÚÄ©Î²²åÈë,idx¿ÉÒÔÊÇ³¤¶È¼Ó1
+    /* æ ¡éªŒindex */
+    if ((idx < 1) || (idx > sq->length + 1)) {  // å¦‚æœæ˜¯åœ¨æœ«å°¾æ’å…¥,idxå¯ä»¥æ˜¯é•¿åº¦åŠ 1
         fprintf(stderr, "Invalid index.\n");
         return FALSE;
     }
 
-    /* ¼ì²â´óĞ¡ÊÇ·ñºÏÀí */
+    /* æ£€æµ‹å¤§å°æ˜¯å¦åˆç† */
     if (ListLength(sq) >= MAXSIZE) {
         fprintf(stderr, "SqList size is too huge.\n");
         return FALSE;
     }
 
-    /* Íê³ÉÊı¾İ²åÈë */
+    /* å®Œæˆæ•°æ®æ’å…¥ */
     for (ELEMTYPE* end = &sq->elem[sq->length]; end >= &sq->elem[idx]; end--) {
         *end = *(end - 1);
     }
@@ -116,10 +116,10 @@ STATUS ListInsert(PSqList sq, int idx, ELEMTYPE elem) {
 }
 
 /**
- * É¾³ıLÖĞµÄµÚi¸öÊı¾İÔªËØ£¬ÓÃelem·µ»ØÆäÖµ£¬1¡Üi¡ÜL.length
+ * åˆ é™¤Lä¸­çš„ç¬¬iä¸ªæ•°æ®å…ƒç´ ï¼Œç”¨elemè¿”å›å…¶å€¼ï¼Œ1â‰¤iâ‰¤L.length
  */
 STATUS ListDelete(PSqList sq, int idx, ELEMTYPE* elem) {
-    // Ğ£ÑéË÷Òı
+    // æ ¡éªŒç´¢å¼•
     if ((idx < 1) || (idx > sq->length)) {
         fprintf(stderr, "Invalid index\n");
         return FALSE;
@@ -127,7 +127,7 @@ STATUS ListDelete(PSqList sq, int idx, ELEMTYPE* elem) {
 
     *elem = sq->elem[idx - 1];
 
-    // ½«ºóĞøÔªËØÇ°ÒÆ
+    // å°†åç»­å…ƒç´ å‰ç§»
     for (int i = idx; i < sq->length; i++) {
         sq->elem[i - 1] = sq->elem[i];
     }
@@ -137,7 +137,7 @@ STATUS ListDelete(PSqList sq, int idx, ELEMTYPE* elem) {
 }
 
 /**
- * ÀûÓÃprintfº¯ÊıÒÀ´ÎÊä³öLµÄÃ¿¸öÊı¾İÔªËØµÄÖµ
+ * åˆ©ç”¨printfå‡½æ•°ä¾æ¬¡è¾“å‡ºLçš„æ¯ä¸ªæ•°æ®å…ƒç´ çš„å€¼
  */
 void ListTraverse(PSqList sq) {
     int sq_len = ListLength(sq);
@@ -148,8 +148,8 @@ void ListTraverse(PSqList sq) {
 }
 
 /**
- * ²¢ÔËËã La=La U Lb
- * ±£ÁôËùÓĞÔªËØ,°üÀ¨ÖØ¸´ÔªËØ,Ïàµ±ÓÚ½²Á½¸öÏßĞÔ±íÈ«²¿ºÏ²¢
+ * å¹¶è¿ç®— La=La U Lb
+ * ä¿ç•™æ‰€æœ‰å…ƒç´ ,åŒ…æ‹¬é‡å¤å…ƒç´ ,ç›¸å½“äºè®²ä¸¤ä¸ªçº¿æ€§è¡¨å…¨éƒ¨åˆå¹¶
  */
 STATUS Union(PSqList target_sq, SqList other_sq) {
     if (target_sq == NULL) {
@@ -157,12 +157,12 @@ STATUS Union(PSqList target_sq, SqList other_sq) {
         return ERROR;
     }
 
-    // ¼ì²éother_sqÊÇ·ñÎª¿Õ»òÎ´³õÊ¼»¯
+    // æ£€æŸ¥other_sqæ˜¯å¦ä¸ºç©ºæˆ–æœªåˆå§‹åŒ–
     if (other_sq.elem == NULL || other_sq.length == 0) {
-        return OK;  // Èç¹ûother_sqÎª¿Õ£¬Ö±½Ó·µ»Ø
+        return OK;  // å¦‚æœother_sqä¸ºç©ºï¼Œç›´æ¥è¿”å›
     }
 
-    // ÔÚ×îºó²åÈëËùÓĞother_sqÖĞµÄÔªËØ£¨°üÀ¨ÖØ¸´ÔªËØ£©
+    // åœ¨æœ€åæ’å…¥æ‰€æœ‰other_sqä¸­çš„å…ƒç´ ï¼ˆåŒ…æ‹¬é‡å¤å…ƒç´ ï¼‰
     for (int i = 0; i < other_sq.length; i++) {
         ELEMTYPE tmp_elem = other_sq.elem[i];
         if (ListLength(target_sq) >= MAXSIZE) {
@@ -179,19 +179,19 @@ STATUS Union(PSqList target_sq, SqList other_sq) {
 }
 
 /**
- * ½»ÔËËã La=La ¡É Lb
- * ĞŞ¸Ätarget_sq£¬Ê¹ÆäÖ»°üº¬Óëother_sqÏàÍ¬µÄÔªËØ
+ * äº¤è¿ç®— La=La âˆ© Lb
+ * ä¿®æ”¹target_sqï¼Œä½¿å…¶åªåŒ…å«ä¸other_sqç›¸åŒçš„å…ƒç´ 
  */
 STATUS InterSection(PSqList target_sq, SqList other_sq) {
-    // ¼ì²éÊäÈëÊÇ·ñºÏ·¨
+    // æ£€æŸ¥è¾“å…¥æ˜¯å¦åˆæ³•
     if (target_sq == NULL) {
         fprintf(stderr, "Target sq is none.\n");
         return ERROR;
     }
-    
-    // ¼ì²éother_sqÊÇ·ñÎª¿Õ»òÎ´³õÊ¼»¯
+
+    // æ£€æŸ¥other_sqæ˜¯å¦ä¸ºç©ºæˆ–æœªåˆå§‹åŒ–
     if (other_sq.elem == NULL || other_sq.length == 0) {
-        ClearList(target_sq);  // Èç¹ûother_sqÎª¿Õ£¬½»¼¯Îª¿Õ
+        ClearList(target_sq);  // å¦‚æœother_sqä¸ºç©ºï¼Œäº¤é›†ä¸ºç©º
         return OK;
     }
 
@@ -207,20 +207,20 @@ STATUS InterSection(PSqList target_sq, SqList other_sq) {
     tmp = [2, 3, 4, 5]
     */
 
-    // Ñ°ÕÒÏàÍ¬µÄ²¿·Ö£¬ÕıÈ·´¦ÀíÖØ¸´ÔªËØ
+    // å¯»æ‰¾ç›¸åŒçš„éƒ¨åˆ†ï¼Œæ­£ç¡®å¤„ç†é‡å¤å…ƒç´ 
     for (int i = 0; i < other_sq.length; i++) {
         ELEMTYPE tmp_elem = other_sq.elem[i];
 
-        // ÔÚÁÙÊ±±íÖĞÑ°ÕÒÊÇ·ñÒÑ¾­´æÔÚÔªËØ
+        // åœ¨ä¸´æ—¶è¡¨ä¸­å¯»æ‰¾æ˜¯å¦å·²ç»å­˜åœ¨å…ƒç´ 
         int already_in_temp = LocateList(&temp_sq, tmp_elem);
         if (already_in_temp != 0) {
-            continue;  
+            continue;
         }
-        
-        // ÔÚÄ¿±êµÄÏßĞÔ±íÖĞÑ°ÕÒÊÇ·ñ´æÔÚÔªËØ
+
+        // åœ¨ç›®æ ‡çš„çº¿æ€§è¡¨ä¸­å¯»æ‰¾æ˜¯å¦å­˜åœ¨å…ƒç´ 
         int find_idx = LocateList(target_sq, tmp_elem);
         if (find_idx != 0) {
-            // ÕÒµ½ÏàÍ¬µÄÔªËØ£¬Ìí¼Óµ½ÁÙÊ±±íÖĞ
+            // æ‰¾åˆ°ç›¸åŒçš„å…ƒç´ ï¼Œæ·»åŠ åˆ°ä¸´æ—¶è¡¨ä¸­
             if (ListInsert(&temp_sq, temp_sq.length + 1, tmp_elem) != OK) {
                 fprintf(stderr, "Failed to insert element to temp list.\n");
                 free(temp_sq.elem);
@@ -229,7 +229,7 @@ STATUS InterSection(PSqList target_sq, SqList other_sq) {
         }
     }
 
-    // Çå¿ÕÔ­±í²¢½«½»¼¯½á¹û¸´ÖÆ»ØÈ¥
+    // æ¸…ç©ºåŸè¡¨å¹¶å°†äº¤é›†ç»“æœå¤åˆ¶å›å»
     ClearList(target_sq);
     for (int i = 0; i < temp_sq.length; i++) {
         if (ListInsert(target_sq, target_sq->length + 1, temp_sq.elem[i]) != OK) {
@@ -244,34 +244,34 @@ STATUS InterSection(PSqList target_sq, SqList other_sq) {
 }
 
 /**
- * ²îÔËËã La=La - Lb
- * ±£ÁôÔÚtarget_sqÖĞµ«²»ÔÚother_listÖĞµÄÔªËØ
+ * å·®è¿ç®— La=La - Lb
+ * ä¿ç•™åœ¨target_sqä¸­ä½†ä¸åœ¨other_listä¸­çš„å…ƒç´ 
  */
 STATUS Difference(PSqList target_sq, SqList other_list) {
-    // ¼ì²é²ÎÊıÊäÈë
+    // æ£€æŸ¥å‚æ•°è¾“å…¥
     if (target_sq == NULL) {
         fprintf(stderr, "Target sq is none.\n");
         return ERROR;
     }
     if (other_list.elem == NULL || other_list.length == 0) {
-        return OK;  // Èç¹ûother_listÎª¿Õ£¬Ö±½Ó·µ»Ø
+        return OK;  // å¦‚æœother_listä¸ºç©ºï¼Œç›´æ¥è¿”å›
     }
 
-    // ´´½¨Ò»¸öÁÙÊ±±íÀ´´æ´¢ÁÙÊ±½á¹û
+    // åˆ›å»ºä¸€ä¸ªä¸´æ—¶è¡¨æ¥å­˜å‚¨ä¸´æ—¶ç»“æœ
     SqList temp_sq;
     if (InitList(&temp_sq) != OK) {
         fprintf(stderr, "Failed to initialize temp list.\n");
         return ERROR;
     }
 
-    // ±éÀútarget_sqÖĞµÄÃ¿¸öÔªËØ
+    // éå†target_sqä¸­çš„æ¯ä¸ªå…ƒç´ 
     for (int i = 0; i < target_sq->length; i++) {
         ELEMTYPE tmp_elem = target_sq->elem[i];
-        
-        // ¼ì²é¸ÃÔªËØÊÇ·ñÔÚother_listÖĞ
+
+        // æ£€æŸ¥è¯¥å…ƒç´ æ˜¯å¦åœ¨other_listä¸­
         int find_idx = LocateList(&other_list, tmp_elem);
         if (find_idx == 0) {
-            // Èç¹û²»ÔÚother_listÖĞ£¬Ìí¼Óµ½ÁÙÊ±±í
+            // å¦‚æœä¸åœ¨other_listä¸­ï¼Œæ·»åŠ åˆ°ä¸´æ—¶è¡¨
             if (ListInsert(&temp_sq, temp_sq.length + 1, tmp_elem) != OK) {
                 fprintf(stderr, "Failed to insert element to temp list.\n");
                 free(temp_sq.elem);
@@ -280,7 +280,7 @@ STATUS Difference(PSqList target_sq, SqList other_list) {
         }
     }
 
-    // Çå¿ÕÔ­±í²¢½«²î¼¯½á¹û¸´ÖÆ»ØÈ¥
+    // æ¸…ç©ºåŸè¡¨å¹¶å°†å·®é›†ç»“æœå¤åˆ¶å›å»
     ClearList(target_sq);
     for (int i = 0; i < temp_sq.length; i++) {
         if (ListInsert(target_sq, target_sq->length + 1, temp_sq.elem[i]) != OK) {
@@ -295,12 +295,12 @@ STATUS Difference(PSqList target_sq, SqList other_list) {
 }
 
 /**
- * Á½¸öÓĞĞò±íµÄºÏ²¢
- * ÉèLaºÍLbÖĞµÄÔªËØÊÇ·Çµİ¼õÓĞĞòµÄ£¬ºÏ²¢ºóLcÒ²ÊÇ·Çµİ¼õÓĞĞòµÄ
- * Ê¹ÓÃ¹é²¢Ëã·¨ºÏ²¢Á½¸öÓĞĞò±í
+ * ä¸¤ä¸ªæœ‰åºè¡¨çš„åˆå¹¶
+ * è®¾Laå’ŒLbä¸­çš„å…ƒç´ æ˜¯éé€’å‡æœ‰åºçš„ï¼Œåˆå¹¶åLcä¹Ÿæ˜¯éé€’å‡æœ‰åºçš„
+ * ä½¿ç”¨å½’å¹¶ç®—æ³•åˆå¹¶ä¸¤ä¸ªæœ‰åºè¡¨
  */
-STATUS MergeList(SqList fir_sq, SqList sec_sq, SqList *out_sq) {
-    // ¼ì²éÊäÈë²ÎÊı
+STATUS MergeList(SqList fir_sq, SqList sec_sq, SqList* out_sq) {
+    // æ£€æŸ¥è¾“å…¥å‚æ•°
     if (out_sq == NULL) {
         fprintf(stderr, "Output list Lc is NULL.\n");
         return ERROR;
@@ -310,14 +310,14 @@ STATUS MergeList(SqList fir_sq, SqList sec_sq, SqList *out_sq) {
         return ERROR;
     }
 
-    // ³õÊ¼»¯out
+    // åˆå§‹åŒ–out
     if (InitList(out_sq) != OK) {
         fprintf(stderr, "Failed to initialize output list Lc.\n");
         return ERROR;
     }
 
-    // Ë«Ö¸Õë²åÈë·¨
-    int fir_idx = 0, sec_idx = 0;      
+    // åŒæŒ‡é’ˆæ’å…¥æ³•
+    int fir_idx = 0, sec_idx = 0;
     int out_idx = 0;
 
     while (fir_idx < fir_sq.length && sec_idx < sec_sq.length) {
@@ -364,27 +364,27 @@ STATUS MergeList(SqList fir_sq, SqList sec_sq, SqList *out_sq) {
 }
 
 /**
- * È¥µôË³Ğò±íÖĞµÄÖØ¸´¶àÓàÔªËØ
- * ÉèLcÊÇÒ»¸öÓĞÖØ¸´ÔªËØµÄË³Ğò±í£¬È¥µôÖØ¸´ÔªËØ
- * Ê¹ÓÃË«Ö¸Õë·¨½øĞĞÔ­µØÈ¥ÖØ
+ * å»æ‰é¡ºåºè¡¨ä¸­çš„é‡å¤å¤šä½™å…ƒç´ 
+ * è®¾Lcæ˜¯ä¸€ä¸ªæœ‰é‡å¤å…ƒç´ çš„é¡ºåºè¡¨ï¼Œå»æ‰é‡å¤å…ƒç´ 
+ * ä½¿ç”¨åŒæŒ‡é’ˆæ³•è¿›è¡ŒåŸåœ°å»é‡
  */
-STATUS Purge(SqList *sq) {
-    // ¼ì²éÊäÈë²ÎÊı
+STATUS Purge(SqList* sq) {
+    // æ£€æŸ¥è¾“å…¥å‚æ•°
     if (sq == NULL || sq->elem == NULL) {
         fprintf(stderr, "Input list is NULL or not initialized.\n");
         return ERROR;
     }
 
-    // Èç¹û±íÎª¿Õ»òÖ»ÓĞÒ»¸öÔªËØ£¬²»ĞèÒªÈ¥ÖØ
+    // å¦‚æœè¡¨ä¸ºç©ºæˆ–åªæœ‰ä¸€ä¸ªå…ƒç´ ï¼Œä¸éœ€è¦å»é‡
     if (sq->length <= 1) {
         return OK;
     }
 
-    // ¿ìÂıÖ¸Õë
+    // å¿«æ…¢æŒ‡é’ˆ
     // a = [1,1,1,2,2,3,4]
     // func(a) = [1,2,3,4]
     int slow = 0;
-    int fast = 1; 
+    int fast = 1;
     while (fast < sq->length) {
         if (sq->elem[fast] != sq->elem[slow]) {
             slow++;
@@ -400,7 +400,7 @@ STATUS Purge(SqList *sq) {
 #define ARRLEN(arr) (sizeof(arr) / sizeof(arr[0]))
 
 int main(void) {
-    printf("=== µÚÒ»Ìâ ===\n");
+    printf("=== ç¬¬ä¸€é¢˜ ===\n");
     ELEMTYPE arr_a[] = {2, 8, 27, 39, 66, 77, 89};
     ELEMTYPE arr_b[] = {6, 18, 27, 59, 65, 77, 89, 120, 140};
 
@@ -417,76 +417,76 @@ int main(void) {
     for (int i = 0; i < ARRLEN(arr_b); i++) {
         ListInsert(pLB, i + 1, arr_b[i]);
     }
-    
-    printf("±íLA: ");
+
+    printf("è¡¨LA: ");
     ListTraverse(pLA);
-    printf("±íLB: ");
+    printf("è¡¨LB: ");
     ListTraverse(pLB);
 
-    printf("\n=== µÚ¶şÌâ ===\n");
-    
-    // ±£´æLAµÄÔ­Ê¼Êı¾İÓÃÓÚ»Ö¸´
+    printf("\n=== ç¬¬äºŒé¢˜ ===\n");
+
+    // ä¿å­˜LAçš„åŸå§‹æ•°æ®ç”¨äºæ¢å¤
     SqList LA_backup;
     InitList(&LA_backup);
     for (int i = 0; i < LA.length; i++) {
         ListInsert(&LA_backup, i + 1, LA.elem[i]);
     }
 
-    printf("²¢ÔËËã LA = LA ¡È LB\n");
+    printf("å¹¶è¿ç®— LA = LA âˆª LB\n");
     Union(pLA, LB);
-    printf("²¢ÔËËã½á¹û: ");
+    printf("å¹¶è¿ç®—ç»“æœ: ");
     ListTraverse(pLA);
 
-    // »Ö¸´LA
+    // æ¢å¤LA
     ClearList(pLA);
     for (int i = 0; i < LA_backup.length; i++) {
         ListInsert(pLA, i + 1, LA_backup.elem[i]);
     }
 
-    printf("\n½»ÔËËã LA = LA ¡É LB\n");
+    printf("\näº¤è¿ç®— LA = LA âˆ© LB\n");
     InterSection(pLA, LB);
-    printf("½»ÔËËã½á¹û: ");
+    printf("äº¤è¿ç®—ç»“æœ: ");
     ListTraverse(pLA);
 
-    // »Ö¸´LA
+    // æ¢å¤LA
     ClearList(pLA);
     for (int i = 0; i < LA_backup.length; i++) {
         ListInsert(pLA, i + 1, LA_backup.elem[i]);
     }
 
-    printf("\n²îÔËËã LA = LA - LB\n");
+    printf("\nå·®è¿ç®— LA = LA - LB\n");
     Difference(pLA, LB);
-    printf("²îÔËËã½á¹û: ");
+    printf("å·®è¿ç®—ç»“æœ: ");
     ListTraverse(pLA);
 
-    printf("\n=== µÚÈıÌâ ===\n");
-    
-    // »Ö¸´LA
+    printf("\n=== ç¬¬ä¸‰é¢˜ ===\n");
+
+    // æ¢å¤LA
     ClearList(pLA);
     for (int i = 0; i < LA_backup.length; i++) {
         ListInsert(pLA, i + 1, LA_backup.elem[i]);
     }
 
-    printf("ÓĞĞò±íºÏ²¢ MergeList(LA, LB, LC)\n");
+    printf("æœ‰åºè¡¨åˆå¹¶ MergeList(LA, LB, LC)\n");
     SqList LC;
     if (MergeList(LA, LB, &LC) == OK) {
-        printf("ºÏ²¢½á¹ûLC: ");
+        printf("åˆå¹¶ç»“æœLC: ");
         ListTraverse(&LC);
     }
 
-    printf("\n=== µÚËÄÌâ ===\n");
+    printf("\n=== ç¬¬å››é¢˜ ===\n");
 
-    printf("\nÈ¥ÖØÔËËã Purge(LC)\n");
+    printf("\nå»é‡è¿ç®— Purge(LC)\n");
     if (Purge(&LC) == OK) {
-        printf("È¥ÖØºóLC: ");
+        printf("å»é‡åLC: ");
         ListTraverse(&LC);
     }
 
-    // ÊÍ·ÅËùÓĞÄÚ´æ
+    // é‡Šæ”¾æ‰€æœ‰å†…å­˜
     free(LA.elem);
     free(LB.elem);
     free(LA_backup.elem);
     free(LC.elem);
-    
+
     return 0;
 }

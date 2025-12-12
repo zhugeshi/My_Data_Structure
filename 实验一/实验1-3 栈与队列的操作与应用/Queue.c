@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 #define BOOL       char
 #define TRUE       1
 #define FALSE      0
@@ -17,11 +16,11 @@
 #define STACKINCREMENT  5
 
 /******************
-ÕâÀïµÄÊÇÕ»µÄÔªËØ¶¨Òå
+è¿™é‡Œçš„æ˜¯æ ˆçš„å…ƒç´ å®šä¹‰
 *******************/
 
-typedef int SElemType;  // ÉùÃ÷ElemTypeµÄÀàĞÍ
-typedef int Status;     // ÉùÃ÷º¯ÊıÀàĞÍÃû
+typedef int SElemType;  // å£°æ˜ElemTypeçš„ç±»å‹
+typedef int Status;     // å£°æ˜å‡½æ•°ç±»å‹å
 typedef struct {
     SElemType* base;
     SElemType* top;
@@ -29,23 +28,23 @@ typedef struct {
 } SqStack;
 
 /*********************
-ÕâÀïµÄÊÇ¶ÓÁĞµÄÔªËØ¶¨Òå
+è¿™é‡Œçš„æ˜¯é˜Ÿåˆ—çš„å…ƒç´ å®šä¹‰
 *********************/
 
-#define MAXQSIZE 10  // ¶ÓÁĞµÄ×î´ó³¤¶È
+#define MAXQSIZE 10  // é˜Ÿåˆ—çš„æœ€å¤§é•¿åº¦
 typedef int QElemType;
 
 typedef struct {
     QElemType* base;
-    int front;  // Í·Ö¸Õë
-    int rear;   // Î²Ö¸Õë
+    int front;  // å¤´æŒ‡é’ˆ
+    int rear;   // å°¾æŒ‡é’ˆ
 } SqQueue;
 
 /********************
- ÕâÀïÊÇ¶ÓÁĞµÄ²Ù×÷º¯Êı
+ è¿™é‡Œæ˜¯é˜Ÿåˆ—çš„æ“ä½œå‡½æ•°
  *******************/
 
-// ÀûÓÃmallocº¯ÊıÉêÇë´æ´¢¿Õ¼ä£¬¹¹ÔìÒ»¸ö¿ÕµÄË³ĞòÕ»S£¬SµÄ³õÊ¼´óĞ¡ÎªSTACK_INIT_SIZE
+// åˆ©ç”¨mallocå‡½æ•°ç”³è¯·å­˜å‚¨ç©ºé—´ï¼Œæ„é€ ä¸€ä¸ªç©ºçš„é¡ºåºæ ˆSï¼ŒSçš„åˆå§‹å¤§å°ä¸ºSTACK_INIT_SIZE
 Status InitStack(SqStack* stk) {
     stk->base = (SElemType*)malloc(STACK_INIT_SIZE * sizeof(SElemType));
     if (!stk->base)
@@ -56,7 +55,7 @@ Status InitStack(SqStack* stk) {
     return OK;
 }
 
-// ½«Ë³ĞòÕ»Êı¾İÇå¿Õ¡£Ö»Ğè×öS.top=S.base¸³Öµ²Ù×÷¼´¿É
+// å°†é¡ºåºæ ˆæ•°æ®æ¸…ç©ºã€‚åªéœ€åšS.top=S.baseèµ‹å€¼æ“ä½œå³å¯
 Status ClearStack(SqStack* stk) {
     if (stk == NULL)
         return ERROR;
@@ -64,49 +63,49 @@ Status ClearStack(SqStack* stk) {
     return OK;
 }
 
-// ·µ»ØLÖĞÊı¾İÔªËØ¸öÊı¡£Ö±½Ó·µ»ØS.top-S.baseµÄÖµ¼´¿É
+// è¿”å›Lä¸­æ•°æ®å…ƒç´ ä¸ªæ•°ã€‚ç›´æ¥è¿”å›S.top-S.baseçš„å€¼å³å¯
 int StackLength(SqStack stk) {
     return stk.top - stk.base;
 }
 
-// ÓÃe·µ»ØÕ»¶¥ÔªËØµÄÖµ
+// ç”¨eè¿”å›æ ˆé¡¶å…ƒç´ çš„å€¼
 Status GetTop(SqStack stk, SElemType* e) {
     if (stk.top == stk.base)
-        return ERROR;  // Õ»¿Õ
+        return ERROR;  // æ ˆç©º
     *e = *(stk.top - 1);
     return OK;
 }
 
-// ½«Êı¾İe½øÕ»
+// å°†æ•°æ®eè¿›æ ˆ
 Status Push(SqStack* stk, SElemType e) {
     if (stk->top - stk->base >= stk->stacksize) {
         stk->base = (SElemType*)realloc(stk->base, (stk->stacksize + STACKINCREMENT) * sizeof(SElemType));
         if (!stk->base)
             return ERROR;
 
-        stk->top = stk->base + stk->stacksize;  // ÖØĞÂ¶¨Î»topÖ¸Õë
+        stk->top = stk->base + stk->stacksize;  // é‡æ–°å®šä½topæŒ‡é’ˆ
         stk->stacksize += STACKINCREMENT;
-    }  // Õ»Âú£¬×·¼Ó´æ´¢¿Õ¼ä
+    }  // æ ˆæ»¡ï¼Œè¿½åŠ å­˜å‚¨ç©ºé—´
 
     *(stk->top) = e;
     stk->top++;
     return OK;
 }
 
-// ½«Õ»¶¥ÔªËØ³öÕ»£¬²¢ÓÃe·µ»ØÆäÖµ
+// å°†æ ˆé¡¶å…ƒç´ å‡ºæ ˆï¼Œå¹¶ç”¨eè¿”å›å…¶å€¼
 Status Pop(SqStack* stk, SElemType* e) {
     if (stk->top == stk->base)
-        return ERROR;  // Õ»¿Õ
+        return ERROR;  // æ ˆç©º
     stk->top--;
     *e = *(stk->top);
     return OK;
 }
 
 /************************
- ÕâÀïÊÇÑ­»·¶ÓÁĞµÄ²Ù×÷º¯Êı
+ è¿™é‡Œæ˜¯å¾ªç¯é˜Ÿåˆ—çš„æ“ä½œå‡½æ•°
  ***********************/
 
-// ÀûÓÃmallocº¯ÊıÉêÇë´æ´¢¿Õ¼ä£¬¹¹ÔìÒ»¸ö¿ÕµÄÑ­»·¶ÓÁĞQ£¬QµÄ´óĞ¡ÎªMAXQSIZE
+// åˆ©ç”¨mallocå‡½æ•°ç”³è¯·å­˜å‚¨ç©ºé—´ï¼Œæ„é€ ä¸€ä¸ªç©ºçš„å¾ªç¯é˜Ÿåˆ—Qï¼ŒQçš„å¤§å°ä¸ºMAXQSIZE
 Status InitQueue(SqQueue* q) {
     q->base = (QElemType*)malloc(MAXQSIZE * sizeof(QElemType));
     if (!q->base)
@@ -117,7 +116,7 @@ Status InitQueue(SqQueue* q) {
     return OK;
 }
 
-// ½«Ñ­»·¶ÓÁĞÊı¾İÇå¿Õ
+// å°†å¾ªç¯é˜Ÿåˆ—æ•°æ®æ¸…ç©º
 Status ClearQueue(SqQueue* q) {
     if (q == NULL)
         return ERROR;
@@ -126,48 +125,48 @@ Status ClearQueue(SqQueue* q) {
     return OK;
 }
 
-// ·µ»ØQÖĞÊı¾İÔªËØ¸öÊı
+// è¿”å›Qä¸­æ•°æ®å…ƒç´ ä¸ªæ•°
 Status QueueLength(SqQueue q) {
-    /* ×¢Òâ¿¼ÂÇ»ØÈÆµÄÊ±ºò */
-    return (q.rear - q.front + MAXQSIZE) % MAXQSIZE;  // ×¢ÒâÈ¡Ä£ÔËËã
+    /* æ³¨æ„è€ƒè™‘å›ç»•çš„æ—¶å€™ */
+    return (q.rear - q.front + MAXQSIZE) % MAXQSIZE;  // æ³¨æ„å–æ¨¡è¿ç®—
 }
 
-// Êı¾İeÈë¶Ó
+// æ•°æ®eå…¥é˜Ÿ
 Status EnQueue(SqQueue* q, QElemType e) {
-    /* Ñ­»·¶ÓÁĞµÄrearÖ¸Õë²»Ö¸ÏòÔªËØ */
+    /* å¾ªç¯é˜Ÿåˆ—çš„rearæŒ‡é’ˆä¸æŒ‡å‘å…ƒç´  */
     if ((q->rear + 1) % MAXQSIZE == q->front)
-        return ERROR;  // ¶ÓÁĞÂú
+        return ERROR;  // é˜Ÿåˆ—æ»¡
 
     q->base[q->rear] = e;
     q->rear = (q->rear + 1) % MAXQSIZE;
     return OK;
 }
 
-// ÊäÈë³ö¶Ó,ÓÃe·µ»Ø¶ÓÍ·ÔªËØµÄÖµ
+// è¾“å…¥å‡ºé˜Ÿ,ç”¨eè¿”å›é˜Ÿå¤´å…ƒç´ çš„å€¼
 Status DeQueue(SqQueue* q, QElemType* e) {
     if (q->front == q->rear)
-        return ERROR;  // ¶ÓÁĞ¿Õ
+        return ERROR;  // é˜Ÿåˆ—ç©º
 
     *e = q->base[q->front];
     q->front = (q->front + 1) % MAXQSIZE;
     return OK;
 }
 
-// ÅĞ¶ÏÊÇ·ñÎª¿Õ¶ÓÁĞ
+// åˆ¤æ–­æ˜¯å¦ä¸ºç©ºé˜Ÿåˆ—
 Status QueueEmpty(SqQueue q) {
     return q.front == q.rear ? TRUE : FALSE;
 }
 
-// ÅĞ¶Ï¶ÔÁĞÎªÂú
+// åˆ¤æ–­å¯¹åˆ—ä¸ºæ»¡
 Status QueueFull(SqQueue q) {
     return (q.rear + 1) % MAXQSIZE == q.front ? TRUE : FALSE;
 }
 
 /*******
-Ó¦ÓÃ°¸Àı
+åº”ç”¨æ¡ˆä¾‹
 ********/
 
-// ÀûÓÃË³ĞòÕ»µÄ»ù±¾²Ù×÷º¯Êı£¬±àÖÆÒ»¸ö½«Ê®½øÖÆÕûÊım×ª»»³Én½øÖÆ(n=2»ò8)ÕûÊıµÄÊıÖÆ×ª»»º¯ÊıConversion(m,n) £¬²¢ÔÚº¯ÊıÖĞÊä³ö×ª»»½á¹û
+// åˆ©ç”¨é¡ºåºæ ˆçš„åŸºæœ¬æ“ä½œå‡½æ•°ï¼Œç¼–åˆ¶ä¸€ä¸ªå°†åè¿›åˆ¶æ•´æ•°mè½¬æ¢æˆnè¿›åˆ¶(n=2æˆ–8)æ•´æ•°çš„æ•°åˆ¶è½¬æ¢å‡½æ•°Conversion(m,n) ï¼Œå¹¶åœ¨å‡½æ•°ä¸­è¾“å‡ºè½¬æ¢ç»“æœ
 void Conversion(int m, int n) {
     if (n != 2 && n != 8) {
         printf("n must be 2 or 8.\n");
@@ -198,7 +197,7 @@ void Conversion(int m, int n) {
     free(stk.base);
 }
 
-// ±àÒ»¸öº¯ÊıQueueReverse(Q)£¬ÀûÓÃÕ»½«½«¶ÓÁĞÖĞµÄÔªËØÄæĞòÖØÅÅ£¬¼´¶ÓÍ·ÔªËØ±ä³É¶ÓÎ²ÔªËØ
+// ç¼–ä¸€ä¸ªå‡½æ•°QueueReverse(Q)ï¼Œåˆ©ç”¨æ ˆå°†å°†é˜Ÿåˆ—ä¸­çš„å…ƒç´ é€†åºé‡æ’ï¼Œå³é˜Ÿå¤´å…ƒç´ å˜æˆé˜Ÿå°¾å…ƒç´ 
 Status QueueReverse(SqQueue* q) {
     if (q == NULL)
         return ERROR;
@@ -244,12 +243,12 @@ void PrintElem(SqQueue q) {
 }
 
 int main(void) {
-    printf("[1] ÊıÖµ×ª»»\n");
+    printf("[1] æ•°å€¼è½¬æ¢\n");
     int m = 2233;
     Conversion(m, 2);
     Conversion(m, 8);
 
-    printf("[2] Ñ­»·¶ÓÁĞ²Ù×÷\n");
+    printf("[2] å¾ªç¯é˜Ÿåˆ—æ“ä½œ\n");
     QElemType vals[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     SqQueue q;
     if (InitQueue(&q) != OK) {
@@ -257,21 +256,21 @@ int main(void) {
         return 1;
     }
 
-    printf("<1> Á¬ĞøÈë¶Ó9¸öÕûÊıºó,ÏÔÊ¾¶ÓÁĞQµÄfrontºÍrearµÄÖµ\n");
+    printf("<1> è¿ç»­å…¥é˜Ÿ9ä¸ªæ•´æ•°å,æ˜¾ç¤ºé˜Ÿåˆ—Qçš„frontå’Œrearçš„å€¼\n");
     for (int i = 0; i < ARR_LEN(vals); ++i) {
         EnQueue(&q, vals[i]);
     }
     PrintIndex(q);
     PrintElem(q);
 
-    printf("<2> ÈôÔÙÈë¶Ó1¸öÕûÊı,ÏÔÊ¾´ËÊ±¶ÓÁĞµÄ×´Ì¬ĞÅÏ¢\n");
+    printf("<2> è‹¥å†å…¥é˜Ÿ1ä¸ªæ•´æ•°,æ˜¾ç¤ºæ­¤æ—¶é˜Ÿåˆ—çš„çŠ¶æ€ä¿¡æ¯\n");
     if (EnQueue(&q, 10) == OK) {
         PrintIndex(q);
     } else {
-        printf("¶ÓÁĞÒÑÂú£¬ÎŞ·¨ÔÙÈë¶Ó\n");
+        printf("é˜Ÿåˆ—å·²æ»¡ï¼Œæ— æ³•å†å…¥é˜Ÿ\n");
     }
 
-    printf("<3> Á¬Ğø³ö¶Ó5¸öÕûÊı,ÔÙÈë¶Ó2¸öÕûÊı,ÏÔÊ¾´ËÊ±µÄ¶ÓÁĞQµÄ³¤¶ÈÓëfrontºÍrearµÄÖµ\n");
+    printf("<3> è¿ç»­å‡ºé˜Ÿ5ä¸ªæ•´æ•°,å†å…¥é˜Ÿ2ä¸ªæ•´æ•°,æ˜¾ç¤ºæ­¤æ—¶çš„é˜Ÿåˆ—Qçš„é•¿åº¦ä¸frontå’Œrearçš„å€¼\n");
     for (int i = 0; i < 5; ++i) {
         QElemType e;
         DeQueue(&q, &e);
@@ -279,11 +278,11 @@ int main(void) {
     for (int i = 0; i < 2; ++i) {
         EnQueue(&q, 100 + i);
     }
-    printf("¶ÓÁĞ³¤¶ÈÎª: %d\n", QueueLength(q));
+    printf("é˜Ÿåˆ—é•¿åº¦ä¸º: %d\n", QueueLength(q));
     PrintIndex(q);
     PrintElem(q);
 
-    printf("µ÷ÓÃº¯ÊıQueueReverse(Q),½«¶ÓÁĞÔªËØÄæĞòÖØÅÅ,È»ºó½«¶ÓÁĞÔªËØ³ö¶Ó²¢Êä³ö\n");
+    printf("è°ƒç”¨å‡½æ•°QueueReverse(Q),å°†é˜Ÿåˆ—å…ƒç´ é€†åºé‡æ’,ç„¶åå°†é˜Ÿåˆ—å…ƒç´ å‡ºé˜Ÿå¹¶è¾“å‡º\n");
     QueueReverse(&q);
     PrintElem(q);
 

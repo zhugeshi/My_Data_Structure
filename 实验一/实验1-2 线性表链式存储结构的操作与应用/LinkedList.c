@@ -12,7 +12,7 @@
 #define OVERFLOW   -2
 #define MAXSIZE    100
 
-typedef int Status;  //ÉùÃ÷º¯ÊıÀàĞÍÃû
+typedef int Status;  // å£°æ˜å‡½æ•°ç±»å‹å
 typedef int ELEMTYPE;
 
 typedef struct LNode {
@@ -20,10 +20,11 @@ typedef struct LNode {
     struct LNode* next;
 } LNode, *PLNode;
 
-// ³õÊ¼»¯Á´±í£º´«ÈëÒ»¸ö PLNode*£¨Ö¸Ïò PLNode ±äÁ¿µÄÖ¸Õë£©£¬º¯Êı»áÔÚÄÚ²¿·ÖÅäÍ·½áµã²¢Í¨¹ı *pl ·µ»Ø
-// ·µ»ØÖµ£ºOK(1) ±íÊ¾³É¹¦£¬ERROR(0) ±íÊ¾Ê§°Ü
-Status InitList(PLNode *pl) {
-    if (pl == NULL) return ERROR;
+// åˆå§‹åŒ–é“¾è¡¨ï¼šä¼ å…¥ä¸€ä¸ª PLNode*ï¼ˆæŒ‡å‘ PLNode å˜é‡çš„æŒ‡é’ˆï¼‰ï¼Œå‡½æ•°ä¼šåœ¨å†…éƒ¨åˆ†é…å¤´ç»“ç‚¹å¹¶é€šè¿‡ *pl è¿”å›
+// è¿”å›å€¼ï¼šOK(1) è¡¨ç¤ºæˆåŠŸï¼ŒERROR(0) è¡¨ç¤ºå¤±è´¥
+Status InitList(PLNode* pl) {
+    if (pl == NULL)
+        return ERROR;
     *pl = (PLNode)malloc(sizeof(LNode));
     if (*pl == NULL) {
         fprintf(stderr, "Init head node failed.\n");
@@ -36,9 +37,10 @@ Status InitList(PLNode *pl) {
     return OK;
 }
 
-// Çå¿Õµ¥Á´±í¡£½«LÖĞËùÓĞÊı¾İ½áµã¿Õ¼äÊÍ·Å¡£Ö»Ê£ÏÂÒ»¸öÍ·½áµã£¬ºÍ³õÊ¼»¯²Ù×÷ºóµÄ½á¹ûÒ»Ñù 
+// æ¸…ç©ºå•é“¾è¡¨ã€‚å°†Lä¸­æ‰€æœ‰æ•°æ®ç»“ç‚¹ç©ºé—´é‡Šæ”¾ã€‚åªå‰©ä¸‹ä¸€ä¸ªå¤´ç»“ç‚¹ï¼Œå’Œåˆå§‹åŒ–æ“ä½œåçš„ç»“æœä¸€æ ·
 Status ClearList(PLNode pl) {
-    if (pl == NULL) return ERROR;
+    if (pl == NULL)
+        return ERROR;
     PLNode tmp = pl->next;
     while (tmp != NULL) {
         PLNode to_free = tmp;
@@ -49,7 +51,7 @@ Status ClearList(PLNode pl) {
     return OK;
 }
 
-// Çóµ¥Á´±íµÄ³¤¶È£¬¼´·µ»ØLÖĞÊı¾İ½áµã¸öÊı 
+// æ±‚å•é“¾è¡¨çš„é•¿åº¦ï¼Œå³è¿”å›Lä¸­æ•°æ®ç»“ç‚¹ä¸ªæ•°
 int ListLength(LNode ln) {
     if (ln.next == NULL) {
         return 0;
@@ -66,9 +68,9 @@ int ListLength(LNode ln) {
     return count;
 }
 
-// ÓÃe·µ»ØLÖĞµÚi¸öÊı¾İ½áµãµÄÖµ£¬ÆäÖĞ1¡Üi¡ÜListlength(L)
+// ç”¨eè¿”å›Lä¸­ç¬¬iä¸ªæ•°æ®ç»“ç‚¹çš„å€¼ï¼Œå…¶ä¸­1â‰¤iâ‰¤Listlength(L)
 Status GetElem(LNode ln, size_t idx, ELEMTYPE* elem) {
-    // ¼ì²éÊäÈë²ÎÊıÊÇ·ñºÏ·¨
+    // æ£€æŸ¥è¾“å…¥å‚æ•°æ˜¯å¦åˆæ³•
     size_t length = ListLength(ln);
     if (idx < 1 || idx > length) {
         fprintf(stderr, "Index is invalid.\n");
@@ -82,14 +84,14 @@ Status GetElem(LNode ln, size_t idx, ELEMTYPE* elem) {
     return OK;
 }
 
-// »ØLÖĞµÚ1¸öÓëeÏàµÈµÄÊı¾İ½áµãµÄµØÖ·£¨Ö¸Õë£©£¬Èôe²»´æÔÚ£¬Ôò·µ»ØNULL
+// å›Lä¸­ç¬¬1ä¸ªä¸eç›¸ç­‰çš„æ•°æ®ç»“ç‚¹çš„åœ°å€ï¼ˆæŒ‡é’ˆï¼‰ï¼Œè‹¥eä¸å­˜åœ¨ï¼Œåˆ™è¿”å›NULL
 PLNode LocateList(LNode ln, ELEMTYPE elem) {
-    // ¼ì²éÊäÈë²ÎÊı
+    // æ£€æŸ¥è¾“å…¥å‚æ•°
     if (ln.next == NULL) {
         return NULL;
     }
 
-    PLNode tmp = ln.next ;
+    PLNode tmp = ln.next;
     while (tmp != NULL) {
         if (tmp->data == elem) {
             return tmp;
@@ -101,9 +103,9 @@ PLNode LocateList(LNode ln, ELEMTYPE elem) {
     return NULL;
 }
 
-// ÔÚLÖĞµÄµÚi¸öÊı¾İ½áµãÖ®Ç°²åÈëĞÂµÄÊı¾İ½áµãe£¬1¡Üi¡ÜListlength(L)+1
+// åœ¨Lä¸­çš„ç¬¬iä¸ªæ•°æ®ç»“ç‚¹ä¹‹å‰æ’å…¥æ–°çš„æ•°æ®ç»“ç‚¹eï¼Œ1â‰¤iâ‰¤Listlength(L)+1
 Status ListInsert(PLNode pl, size_t idx, ELEMTYPE elem) {
-    // ²ÎÊı¼ì²é
+    // å‚æ•°æ£€æŸ¥
     size_t length = ListLength(*pl);
     if (idx < 1 || idx > length + 1) {
         fprintf(stderr, "Index is invalid.\n");
@@ -122,9 +124,9 @@ Status ListInsert(PLNode pl, size_t idx, ELEMTYPE elem) {
     return OK;
 }
 
-// É¾³ıLÖĞµÄµÚi¸öÊı¾İj½áµã£¬ÓÃe·µ»ØÉ¾³ı½áµãµÄÖµ£¬1¡Üi¡ÜListlength(L)
-Status ListDelete(PLNode pl, size_t  idx, ELEMTYPE* elem) {
-    // ²ÎÊı¼ì²é
+// åˆ é™¤Lä¸­çš„ç¬¬iä¸ªæ•°æ®jç»“ç‚¹ï¼Œç”¨eè¿”å›åˆ é™¤ç»“ç‚¹çš„å€¼ï¼Œ1â‰¤iâ‰¤Listlength(L)
+Status ListDelete(PLNode pl, size_t idx, ELEMTYPE* elem) {
+    // å‚æ•°æ£€æŸ¥
     size_t length = ListLength(*pl);
     if (idx < 1 || idx > length) {
         fprintf(stderr, "Index is invalid.\n");
@@ -142,7 +144,7 @@ Status ListDelete(PLNode pl, size_t  idx, ELEMTYPE* elem) {
     return OK;
 }
 
-// ÀûÓÃprintfº¯ÊıÒÀ´ÎÊä³öLµÄÃ¿¸öÊı¾İ½áµãµÄÖµ
+// åˆ©ç”¨printfå‡½æ•°ä¾æ¬¡è¾“å‡ºLçš„æ¯ä¸ªæ•°æ®ç»“ç‚¹çš„å€¼
 Status ListTraverse(LNode ln) {
     if (ln.next == NULL) {
         fprintf(stderr, "List is empty.\n");
@@ -158,7 +160,7 @@ Status ListTraverse(LNode ln) {
     return OK;
 }
 
-// ´òÓ¡Á´±íÀïËùÓĞµÄÔªËØÖµ
+// æ‰“å°é“¾è¡¨é‡Œæ‰€æœ‰çš„å…ƒç´ å€¼
 BOOL PrintInfor(PLNode pl) {
     PLNode temp = pl->next;
     int count = 1;
@@ -170,32 +172,36 @@ BOOL PrintInfor(PLNode pl) {
     return TRUE;
 }
 
-// ÔÚÎ²²¿×·¼ÓÒ»¸öÔªËØ£¨²»Ê¹ÓÃ ListInsert£©£¬·µ»Ø OK/ERROR
+// åœ¨å°¾éƒ¨è¿½åŠ ä¸€ä¸ªå…ƒç´ ï¼ˆä¸ä½¿ç”¨ ListInsertï¼‰ï¼Œè¿”å› OK/ERROR
 Status AppendTail(PLNode head, ELEMTYPE val) {
-    if (head == NULL) return ERROR;
+    if (head == NULL)
+        return ERROR;
     PLNode p = head;
     while (p->next != NULL) p = p->next;
     PLNode node = (PLNode)malloc(sizeof(LNode));
-    if (!node) return ERROR;
+    if (!node)
+        return ERROR;
     node->data = val;
     node->next = NULL;
     p->next = node;
     return OK;
 }
 
-// ´ÓÊı×é´´½¨Á´±í£¨·µ»ØÍ·½áµãÖ¸Õë£©
+// ä»æ•°ç»„åˆ›å»ºé“¾è¡¨ï¼ˆè¿”å›å¤´ç»“ç‚¹æŒ‡é’ˆï¼‰
 PLNode CreateListFromArray(const ELEMTYPE arr[], size_t n) {
     PLNode head = NULL;
-    if (InitList(&head) != OK) return NULL;
+    if (InitList(&head) != OK)
+        return NULL;
     for (size_t i = 0; i < n; ++i) {
         AppendTail(head, arr[i]);
     }
     return head;
 }
 
-// ÊÍ·ÅÁ´±íËùÓĞ½Úµã£¨°üº¬Í·½áµã£©
+// é‡Šæ”¾é“¾è¡¨æ‰€æœ‰èŠ‚ç‚¹ï¼ˆåŒ…å«å¤´ç»“ç‚¹ï¼‰
 void FreeList(PLNode head) {
-    if (head == NULL) return;
+    if (head == NULL)
+        return;
     PLNode cur = head;
     while (cur != NULL) {
         PLNode tmp = cur->next;
@@ -204,34 +210,42 @@ void FreeList(PLNode head) {
     }
 }
 
-// ´òÓ¡Á´±íÎª 2->8->...->^ ¸ñÊ½
+// æ‰“å°é“¾è¡¨ä¸º 2->8->...->^ æ ¼å¼
 void PrintListFormat(PLNode head) {
-    if (head == NULL) { printf("^\n"); return; }
+    if (head == NULL) {
+        printf("^\n");
+        return;
+    }
     PLNode p = head->next;
     while (p != NULL) {
         printf("%d", p->data);
-        if (p->next != NULL) printf("->");
+        if (p->next != NULL)
+            printf("->");
         p = p->next;
     }
     printf("->^\n");
 }
 
-// ÅĞ¶ÏÖµÊÇ·ñ´æÔÚÓÚÁ´±íÖĞ£¨´ÓÍ·½áµãµÄÏÂÒ»¸ö¿ªÊ¼£©
+// åˆ¤æ–­å€¼æ˜¯å¦å­˜åœ¨äºé“¾è¡¨ä¸­ï¼ˆä»å¤´ç»“ç‚¹çš„ä¸‹ä¸€ä¸ªå¼€å§‹ï¼‰
 int Exists(PLNode head, ELEMTYPE val) {
-    if (head == NULL) return 0;
+    if (head == NULL)
+        return 0;
     PLNode p = head->next;
     while (p != NULL) {
-        if (p->data == val) return OK;
+        if (p->data == val)
+            return OK;
         p = p->next;
     }
     return 0;
 }
 
-// ¸´ÖÆÁ´±í£¨Éî¿½±´£©£¬·µ»ØĞÂÍ·½áµã
+// å¤åˆ¶é“¾è¡¨ï¼ˆæ·±æ‹·è´ï¼‰ï¼Œè¿”å›æ–°å¤´ç»“ç‚¹
 PLNode CopyList(PLNode src) {
-    if (src == NULL) return NULL;
+    if (src == NULL)
+        return NULL;
     PLNode dest = NULL;
-    if (InitList(&dest) != OK) return NULL;
+    if (InitList(&dest) != OK)
+        return NULL;
     PLNode p = src->next;
     while (p != NULL) {
         AppendTail(dest, p->data);
@@ -240,9 +254,10 @@ PLNode CopyList(PLNode src) {
     return dest;
 }
 
-// ²¢ÔËËã La = La U Lb
+// å¹¶è¿ç®— La = La U Lb
 void Union(PLNode La, PLNode Lb) {
-    if (La == NULL || Lb == NULL) return;
+    if (La == NULL || Lb == NULL)
+        return;
     PLNode idx_p = Lb->next;
     while (idx_p != NULL) {
         if (!Exists(La, idx_p->data)) {
@@ -252,15 +267,16 @@ void Union(PLNode La, PLNode Lb) {
     }
 }
 
-// ½»ÔËËã La = La ¡É Lb
-// ¿ìÂıÖ¸ÕëÉ¾³ı·¨
+// äº¤è¿ç®— La = La âˆ© Lb
+// å¿«æ…¢æŒ‡é’ˆåˆ é™¤æ³•
 void Intersection(PLNode La, PLNode Lb) {
-    if (La == NULL || Lb == NULL) return;
+    if (La == NULL || Lb == NULL)
+        return;
     PLNode prev = La;
     PLNode cur = La->next;
     while (cur != NULL) {
         if (!Exists(Lb, cur->data)) {
-            // É¾³ı cur
+            // åˆ é™¤ cur
             prev->next = cur->next;
             free(cur);
             cur = prev->next;
@@ -271,9 +287,10 @@ void Intersection(PLNode La, PLNode Lb) {
     }
 }
 
-// ²îÔËËã La = La - Lb
+// å·®è¿ç®— La = La - Lb
 void Difference(PLNode La, PLNode Lb) {
-    if (La == NULL || Lb == NULL) return;
+    if (La == NULL || Lb == NULL)
+        return;
     PLNode prev = La;
     PLNode cur = La->next;
     while (cur != NULL) {
@@ -288,10 +305,12 @@ void Difference(PLNode La, PLNode Lb) {
     }
 }
 
-// MergeList£ººÏ²¢Á½¸ö·Çµİ¼õÓĞĞò±í La, Lb -> Lc£¨ĞÂ·ÖÅäÁ´±í£©
-int MergeList(PLNode La, PLNode Lb, PLNode *Lc) {
-    if (La == NULL || Lb == NULL || Lc == NULL) return ERROR;
-    if (InitList(Lc) != OK) return ERROR;
+// MergeListï¼šåˆå¹¶ä¸¤ä¸ªéé€’å‡æœ‰åºè¡¨ La, Lb -> Lcï¼ˆæ–°åˆ†é…é“¾è¡¨ï¼‰
+int MergeList(PLNode La, PLNode Lb, PLNode* Lc) {
+    if (La == NULL || Lb == NULL || Lc == NULL)
+        return ERROR;
+    if (InitList(Lc) != OK)
+        return ERROR;
     PLNode pa = La->next;
     PLNode pb = Lb->next;
     while (pa != NULL && pb != NULL) {
@@ -303,21 +322,28 @@ int MergeList(PLNode La, PLNode Lb, PLNode *Lc) {
             pb = pb->next;
         }
     }
-    while (pa != NULL) { AppendTail(*Lc, pa->data); pa = pa->next; }
-    while (pb != NULL) { AppendTail(*Lc, pb->data); pb = pb->next; }
+    while (pa != NULL) {
+        AppendTail(*Lc, pa->data);
+        pa = pa->next;
+    }
+    while (pb != NULL) {
+        AppendTail(*Lc, pb->data);
+        pb = pb->next;
+    }
     return OK;
 }
 
-// Purge£ºÈ¥µôÁ´±íÖĞÖØ¸´¶àÓàÔªËØ£¨±£ÁôµÚÒ»´Î³öÏÖ£©
+// Purgeï¼šå»æ‰é“¾è¡¨ä¸­é‡å¤å¤šä½™å…ƒç´ ï¼ˆä¿ç•™ç¬¬ä¸€æ¬¡å‡ºç°ï¼‰
 void Purge(PLNode Lc) {
-    if (Lc == NULL) return;
+    if (Lc == NULL)
+        return;
     PLNode p = Lc->next;
     while (p != NULL) {
         PLNode prev = p;
         PLNode q = p->next;
         while (q != NULL) {
             if (q->data == p->data) {
-                // É¾³ı q
+                // åˆ é™¤ q
                 prev->next = q->next;
                 free(q);
                 q = prev->next;
@@ -340,45 +366,54 @@ int main() {
     PLNode LB = CreateListFromArray(lb_vals, nb);
     if (LA == NULL || LB == NULL) {
         fprintf(stderr, "Failed to create lists.\n");
-        FreeList(LA); FreeList(LB);
+        FreeList(LA);
+        FreeList(LB);
         return 1;
     }
 
-    printf("Initial LA: "); PrintListFormat(LA);
-    printf("Initial LB: "); PrintListFormat(LB);
+    printf("Initial LA: ");
+    PrintListFormat(LA);
+    printf("Initial LB: ");
+    PrintListFormat(LB);
 
-    /* ²¢ÔËËã La = La U Lb */
+    /* å¹¶è¿ç®— La = La U Lb */
     PLNode tmp = CopyList(LA);
     Union(tmp, LB);
-    printf("After Union (LA U LB): "); PrintListFormat(tmp);
+    printf("After Union (LA U LB): ");
+    PrintListFormat(tmp);
     FreeList(tmp);
 
-    /* ½»ÔËËã La = La ¡É Lb */
+    /* äº¤è¿ç®— La = La âˆ© Lb */
     tmp = CopyList(LA);
     Intersection(tmp, LB);
-    printf("After Intersection (LA ¡É LB): "); PrintListFormat(tmp);
+    printf("After Intersection (LA âˆ© LB): ");
+    PrintListFormat(tmp);
     FreeList(tmp);
 
-    /* ²îÔËËã La = La - Lb */
+    /* å·®è¿ç®— La = La - Lb */
     tmp = CopyList(LA);
     Difference(tmp, LB);
-    printf("After Difference (LA - LB): "); PrintListFormat(tmp);
+    printf("After Difference (LA - LB): ");
+    PrintListFormat(tmp);
     FreeList(tmp);
 
-    /* ÓĞĞò±íºÏ²¢ Lc = La + Lb */
+    /* æœ‰åºè¡¨åˆå¹¶ Lc = La + Lb */
     PLNode LC = NULL;
     if (MergeList(LA, LB, &LC) != OK) {
         fprintf(stderr, "MergeList failed.\n");
-        FreeList(LA); FreeList(LB);
+        FreeList(LA);
+        FreeList(LB);
         return 1;
     }
-    printf("After Merge (LC): "); PrintListFormat(LC);
+    printf("After Merge (LC): ");
+    PrintListFormat(LC);
 
-    /* È¥µôÖØ¸´¶àÓàµÄÔªËØ */
+    /* å»æ‰é‡å¤å¤šä½™çš„å…ƒç´  */
     Purge(LC);
-    printf("After Purge (LC): "); PrintListFormat(LC);
+    printf("After Purge (LC): ");
+    PrintListFormat(LC);
 
-    /* ÊÍ·ÅÄÚ´æ */
+    /* é‡Šæ”¾å†…å­˜ */
     FreeList(LA);
     FreeList(LB);
     FreeList(LC);
