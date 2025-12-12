@@ -30,12 +30,15 @@ void InitHTree(HTree* HT, int* w, int n) {
     if (!*HT)
         exit(OVERFLOW);
 
+    // 初始化叶子节点的权重和其他属性
     for (int i = 0; i < n; i++) {
         (*HT)[i].weight = w[i];
         (*HT)[i].parent = -1;
         (*HT)[i].lchild = -1;
         (*HT)[i].rchild = -1;
     }
+
+    // 初始化根节点的权重和其他属性
     for (int i = n; i < 2 * n - 1; i++) {
         (*HT)[i].weight = 0;
         (*HT)[i].parent = -1;
@@ -44,7 +47,14 @@ void InitHTree(HTree* HT, int* w, int n) {
     }
 }
 
-// 选择两个权重最小的节点
+/**
+ * @brief 选择最小的两个节点
+ *
+ * @param HT 哈夫曼树
+ * @param k 当前节点数
+ * @param s1 节点1
+ * @param s2 节点2
+ */
 void Select(HTree HT, int k, int* s1, int* s2) {
     unsigned int min1 = UINT_MAX, min2 = UINT_MAX;
     *s1 = -1;
@@ -78,7 +88,12 @@ void Select(HTree HT, int k, int* s1, int* s2) {
     }
 }
 
-// 创建哈夫曼树
+/**
+ * @brief 创建哈夫曼树
+ *
+ * @param HT 哈夫曼树
+ * @param n 叶子节点个数
+ */
 void CreateHTree(HTree* HT, int n) {
     int s1, s2;
     for (int i = n; i < 2 * n - 1; i++) {
@@ -91,7 +106,13 @@ void CreateHTree(HTree* HT, int n) {
     }
 }
 
-// 生成哈夫曼编码
+/**
+ * @brief 哈夫曼编码
+ *
+ * @param HT 哈夫曼树
+ * @param HC 哈夫曼编码数组
+ * @param n 叶子节点个数
+ */
 void HTCoding(HTree HT, HTCode* HC, int n) {
     *HC = (HTCode)malloc(sizeof(char*) * n);
     char* cd = (char*)malloc(sizeof(char) * n);
@@ -115,6 +136,12 @@ void HTCoding(HTree HT, HTCode* HC, int n) {
     free(cd);
 }
 
+/**
+ * @brief 打印哈夫曼编码
+ *
+ * @param HT 节点
+ * @param n 叶子节点个数
+ */
 void PrintHT(HTree HT, int n) {
     printf("Index\tWeight\tParent\tLChild\tRChild\n");
     for (int i = 0; i < 2 * n - 1; i++) {
@@ -131,7 +158,10 @@ void PrintHT(HTree HT, int n) {
 int main() {
     HTree HT;
     HTCode HC;
+
+    // 权重数组
     int w[] = {5, 29, 7, 8, 14, 23, 3, 11};
+    // 叶子节点数量
     int n = 8;
 
     printf("初始化哈夫曼树\n");
