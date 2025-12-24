@@ -432,7 +432,7 @@ void MiniSpanTree_Kruskal(MGraph G) {
     }
     printf("==========================================\n");
 }
-// ==================== 测试函数 ====================
+
 void TestMinSpanTree() {
     MGraph G;
     printf("创建测试用无向网:\n");
