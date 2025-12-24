@@ -76,67 +76,46 @@ int LocateVex(ALGraph G, char vex) {
  * @return Status
  */
 Status CreateALGraph(GraphKind GKind, ALGraph* G, int vexnum, int arcnum, char* vexs, int* arcs) {
-    int start, end, k, weight;
-    ArcNode* p_arc;
+    int i, k;
+    int from, to, weight;
+    ArcNode* p_arc_node;
 
-    // 初始化图的基本信息
     G->kind = GKind;
-    G->vexnum = vexnum;
     G->arcnum = arcnum;
+    G->vexnum = vexnum;
 
-    // 初始化顶点数组
-    for (start = 0; start < vexnum; start++) {
-        G->vertices[start].data = vexs[start];
-        G->vertices[start].firstarc = NULL;
+    for (i = 0; i < vexnum; i++) {
+        G->vertices[i].data = vexs[i];
+        G->vertices[i].firstarc = NULL;
     }
 
-    // 创建邻接表
     for (k = 0; k < arcnum; k++) {
-        // 从arcs数组中读取边(弧)信息
-        // arcs数组按照[i, j, w, i, j, w, ...]的顺序存储
-        start = arcs[k * 3];       // 起点下标
-        end = arcs[k * 3 + 1];     // 终点下标
-        weight = arcs[k * 3 + 2];  // 权值
+        from = arcs[k * 3];
+        to = arcs[k * 3 + 1];
+        weight = arcs[k * 3 + 2];
 
-        // 创建边(弧)结点
-        p_arc = (ArcNode*)malloc(sizeof(ArcNode));
-        if (!p_arc)
+        p_arc_node = (ArcNode*)malloc(sizeof(ArcNode));
+        if (!p_arc_node)
             return ERROR;
 
-        /* typedef struct ArcNode {
-            int adjvex;               // 该边(弧)所依附(指向)的顶点在顶点数组的下标
-            struct ArcNode* nextarc;  // 指向下一条边(弧)的指针
-            int weight;               // 边(弧)的权值，无权图其值为0
-        } ArcNode; */
-        p_arc->adjvex = end;
-        p_arc->weight = weight;
+        p_arc_node->adjvex = to;
+        p_arc_node->weight = weight;
 
-        // 采用头插法插入边表
-        /* typedef struct {
-            AdjList vertices;    // 图的顶点数组
-            int vexnum, arcnum;  // 图的顶点数和边(弧)数
-            GraphKind kind;      // 图的类型
-        } ALGraph; */
+        // 头插法插入新节点
+        p_arc_node->nextarc = G->vertices[from].firstarc;
+        G->vertices[from].firstarc = p_arc_node;
 
-        /* typedef struct VNode {
-            VertexType data;    // 顶点数据
-            ArcNode* firstarc;  // 指向第一条依附该顶点的边(弧)的指针
-        } VNode, AdjList[MAX_VERTEX_NUM]; */
-        p_arc->nextarc = G->vertices[start].firstarc;
-        G->vertices[start].firstarc = p_arc;
-
-        // 如果是无向图(UDG或UDN)，需要添加对称的边
         if (GKind == UDG || GKind == UDN) {
-            p_arc = (ArcNode*)malloc(sizeof(ArcNode));
-            if (!p_arc)
+            p_arc_node = (ArcNode*)malloc(sizeof(ArcNode));
+            if (!p_arc_node)
                 return ERROR;
 
-            p_arc->adjvex = start;
-            p_arc->weight = weight;
+            p_arc_node->adjvex = from;
+            p_arc_node->weight = weight;
 
-            // 采用头插法插入边表
-            p_arc->nextarc = G->vertices[end].firstarc;
-            G->vertices[end].firstarc = p_arc;
+            // 头插法插入新节点
+            p_arc_node->nextarc = G->vertices[to].firstarc;
+            G->vertices[to].firstarc = p_arc_node->nextarc;
         }
     }
 
