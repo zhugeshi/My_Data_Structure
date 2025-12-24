@@ -435,44 +435,23 @@ void MiniSpanTree_Kruskal(MGraph G) {
 // ==================== 测试函数 ====================
 void TestMinSpanTree() {
     MGraph G;
-    printf("\n================== 测试示例1 ==================\n");
     printf("创建测试用无向网:\n");
     char vexs[] = {'A', 'B', 'C', 'D', 'E', 'F'};
     int arcs[] = {
-        0, 1, 6,  // A-B: 6
-        0, 2, 1,  // A-C: 1
-        0, 3, 5,  // A-D: 5
-        1, 2, 5,  // B-C: 5
-        1, 4, 3,  // B-E: 3
-        2, 3, 5,  // C-D: 5
-        2, 4, 6,  // C-E: 6
-        2, 5, 4,  // C-F: 4
-        3, 5, 2,  // D-F: 2
-        4, 5, 6   // E-F: 6
-    };
+        0, 1, 10,  // A-B: 6
+        0, 2, 12,  // A-C: 1
+        0, 4, 15,
+        1, 2, 7,
+        1, 5, 6,
+        1, 3, 5,
+        2, 4, 12,
+        2, 5, 8,
+        3, 5, 6,
+        4, 5, 10};
     CreateMGraph(UDN, &G, 6, 10, vexs, arcs);
     OutMGraph(G);
-    // 测试Prim算法 - 从不同顶点开始
     MiniSpanTree_Prim(G, 'A');
-    MiniSpanTree_Prim(G, 'D');
-    // 测试Kruskal算法
     MiniSpanTree_Kruskal(G);
-    printf("\n================== 测试示例2 ==================\n");
-    printf("创建较小的无向网:\n");
-    char vexs2[] = {'A', 'B', 'C', 'D'};
-    int arcs2[] = {
-        0, 1, 10,  // A-B: 10
-        0, 2, 15,  // A-C: 15
-        0, 3, 20,  // A-D: 20
-        1, 2, 35,  // B-C: 35
-        1, 3, 25,  // B-D: 25
-        2, 3, 30   // C-D: 30
-    };
-    MGraph G2;
-    CreateMGraph(UDN, &G2, 4, 6, vexs2, arcs2);
-    OutMGraph(G2);
-    MiniSpanTree_Prim(G2, 'A');
-    MiniSpanTree_Kruskal(G2);
 }
 
 int main() {
